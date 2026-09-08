@@ -613,6 +613,7 @@
       <div class="tabs" role="tablist" aria-label="Vistas de Foundry Studio">
         <button class="tab active" data-tab="knowledge" type="button">Knowledge</button>
         <button class="tab" data-tab="models" type="button">Models & tools</button>
+        <button class="tab" data-tab="conversation" type="button">Conversational agent</button>
         <button class="tab" data-tab="agent" type="button">Agent runtime</button>
         <button class="tab" data-tab="evaluation" type="button">Evaluation</button>
         <button class="tab" data-tab="governance" type="button">Governance</button>
@@ -636,18 +637,17 @@
           <div class="field">
             <label for="outputType">Formato a generar</label>
             <select id="outputType">
-              <option value="web">Web ejecutiva</option>
-              <option value="mobile">Aplicación mobile</option>
-              <option value="agent">Agente conversacional</option>
+              <option value="web">Web ecommerce</option>
+              <option value="mobile">App mobile turnos</option>
+              <option value="agent">Agente sobre reporte</option>
             </select>
           </div>
           <div class="field">
             <label for="businessTheme">Tema del proceso</label>
             <select id="businessTheme">
-              <option value="retention">Retención de clientes</option>
-              <option value="sla">Recuperación de SLA operativo</option>
-              <option value="invoice">Excepciones de facturación</option>
-              <option value="onboarding">Onboarding de empleados</option>
+              <option value="commerce">Retail con carrito y pagos</option>
+              <option value="health">Centro de turnos médicos</option>
+              <option value="report">Power BI + SharePoint</option>
             </select>
           </div>
           <div class="field">
@@ -662,12 +662,12 @@
           <div>
             <label>Ideas preconfiguradas</label>
             <div class="idea-grid">
-              <button class="idea active" data-preset="retention-web" type="button"><strong>Portal de retención</strong><span>Web para priorizar cuentas y preparar acciones.</span></button>
-              <button class="idea" data-preset="sla-mobile" type="button"><strong>App de operaciones</strong><span>Mobile para recuperar SLA y reasignar trabajo.</span></button>
-              <button class="idea" data-preset="invoice-agent" type="button"><strong>Agente de facturas</strong><span>Chat web para resolver excepciones con trazabilidad.</span></button>
+              <button class="idea active" data-preset="commerce-web" type="button"><strong>Tienda con carrito</strong><span>Web completa con productos, carrito y medios de pago.</span></button>
+              <button class="idea" data-preset="health-mobile" type="button"><strong>Centro de turnos</strong><span>App mobile para buscar especialidad, elegir médico y reservar.</span></button>
+              <button class="idea" data-preset="report-agent" type="button"><strong>Agente de reporte</strong><span>Chat que contrasta Power BI con documentos de SharePoint.</span></button>
             </div>
           </div>
-          <a class="btn primary" id="generateExperience" target="_blank" rel="noreferrer" href="prototype.html?type=web&scenario=retention&palette=rose">Abrir experiencia generada</a>
+          <a class="btn primary" id="generateExperience" target="_blank" rel="noreferrer" href="prototype.html?type=web&scenario=commerce&palette=rose">Abrir experiencia generada</a>
         </div>
         <div class="preview-card">
           <div class="preview-header">
@@ -742,6 +742,31 @@
               <div class="source"><div><strong>Support action</strong><span>Create recovery task</span></div><span class="badge">Tool</span></div>
               <div class="source"><div><strong>Email draft</strong><span>Prepare executive follow-up</span></div><span class="badge">Tool</span></div>
               <div class="source"><div><strong>Model policy</strong><span>High accuracy route</span></div><span class="badge">Router</span></div>
+            </div>
+          </div>`
+      },
+      conversation: {
+        rail: [
+          ["Agent", "FoundryIQ Business Process Advisor."],
+          ["Grounding", "CRM, tickets, Power BI y documentos."],
+          ["Actions", "Preparar borrador, crear tarea, pedir aprobación."]
+        ],
+        screen: `
+          <div class="screen-top"><div class="screen-title"><strong>FoundryIQ conversational agent</strong><span>Agente conectado a conocimiento corporativo y políticas</span></div><div class="status">Grounded</div></div>
+          <div class="panel-grid">
+            <div class="panel">
+              <h3>Conversación ejecutiva</h3>
+              <div class="chat-sketch" id="foundryChat">
+                <div class="bubble">¿Qué proceso necesita atención esta semana?</div>
+                <div class="bubble agent">Detecté riesgo en retención de clientes y SLA operativo. La prioridad es Northwind Bank: ticket crítico, renovación cercana y baja interacción ejecutiva.</div>
+                <div class="bubble">¿Podemos accionar?</div>
+                <div class="bubble agent">Puedo preparar el resumen ejecutivo, crear tarea de seguimiento y actualizar CRM. El envío al cliente requiere aprobación del account owner.</div>
+              </div>
+            </div>
+            <div class="source-list">
+              <button class="scenario" data-foundryq="risk" type="button"><strong>Preguntar por riesgos</strong><span>Prioriza señales del negocio</span></button>
+              <button class="scenario" data-foundryq="sources" type="button"><strong>Ver fuentes usadas</strong><span>Muestra grounding y permisos</span></button>
+              <button class="scenario" data-foundryq="action" type="button"><strong>Preparar acción</strong><span>Genera próximos pasos con control</span></button>
             </div>
           </div>`
       },
@@ -839,38 +864,46 @@
           }, 650);
         });
       }
+      const foundryChat = document.getElementById("foundryChat");
+      if (foundryChat) {
+        const answers = {
+          risk: ["¿Dónde está el mayor riesgo?", "El mayor riesgo está en una cuenta estratégica con renovación cercana, ticket crítico abierto y baja interacción ejecutiva. Recomendación: intervención comercial en 24 horas."],
+          sources: ["¿Con qué fuentes respondiste?", "Usé señales de CRM, historial de soporte, resumen de reuniones y política comercial. Todas las fuentes aparecen disponibles para el rol actual del usuario."],
+          action: ["Prepará la siguiente acción.", "Borrador listo: resumen ejecutivo, tareas internas y actualización de CRM. Bloqueo el contacto externo hasta recibir aprobación humana."]
+        };
+        document.querySelectorAll("[data-foundryq]").forEach(btn => {
+          btn.addEventListener("click", () => {
+            const pair = answers[btn.dataset.foundryq];
+            foundryChat.insertAdjacentHTML("beforeend", `<div class="bubble">${pair[0]}</div><div class="bubble agent">${pair[1]}</div>`);
+          });
+        });
+      }
     }
 
     tabs.forEach(tab => tab.addEventListener("click", () => render(tab.dataset.tab)));
     render("knowledge");
 
     const EXPERIENCE = {
-      retention: {
-        label: "Retención de clientes",
-        names: { web: "Customer Retention Portal", mobile: "VIP Account Mobile", agent: "Retention Advisor Agent" },
-        desc: "priorizar cuentas con riesgo, entender señales y preparar acciones de retención",
-        checks: ["Riesgo mayor a 72 activa recomendación", "Beneficios comerciales requieren aprobación", "El agente cita CRM, soporte y contratos"]
+      commerce: {
+        label: "Retail con carrito y pagos",
+        names: { web: "Storefront Copilot Commerce", mobile: "Retail Mobile Checkout", agent: "Shopping Advisor Agent" },
+        desc: "crear una tienda con productos, carrito, medios de pago y recomendaciones",
+        checks: ["Productos reales en grilla", "Carrito interactivo con subtotal", "Checkout con medios de pago configurables"]
       },
-      sla: {
-        label: "Recuperación de SLA operativo",
-        names: { web: "SLA Recovery Console", mobile: "Operations Pulse App", agent: "SLA Recovery Agent" },
-        desc: "detectar desvíos operativos, explicar causas y coordinar recuperación",
-        checks: ["SLA bajo objetivo genera alerta", "Impacto alto escala a gerente", "Se registra decisión y responsable"]
+      health: {
+        label: "Centro de turnos médicos",
+        names: { web: "Clinic Operations Portal", mobile: "Medical Appointments Mobile", agent: "Patient Scheduling Agent" },
+        desc: "buscar especialidad, seleccionar médico, elegir horario y confirmar turno",
+        checks: ["Especialidades y médicos configurados", "Horarios disponibles por profesional", "Confirmación de turno y recordatorio"]
       },
-      invoice: {
-        label: "Excepciones de facturación",
-        names: { web: "Invoice Exception Hub", mobile: "Approvals Mobile Desk", agent: "Invoice Resolution Agent" },
-        desc: "clasificar diferencias, sugerir resolución y dejar evidencia para auditoría",
-        checks: ["Diferencia mayor a 5% bloquea pago", "Sin remito pide evidencia", "Aprobación sensible queda auditada"]
-      },
-      onboarding: {
-        label: "Onboarding de empleados",
-        names: { web: "Onboarding Command Center", mobile: "New Hire Companion", agent: "Onboarding Concierge Agent" },
-        desc: "coordinar accesos, tareas y comunicaciones para nuevos ingresos",
-        checks: ["Rol define checklist y accesos", "Tareas vencidas escalan a manager", "Mensajes se preparan con tono corporativo"]
+      report: {
+        label: "Power BI + SharePoint",
+        names: { web: "Business Insight Portal", mobile: "Insight Brief Mobile", agent: "Report Intelligence Agent" },
+        desc: "conversar con un reporte y contrastar hallazgos con documentos de SharePoint",
+        checks: ["Métricas tipo Power BI", "Contraste con minutas/documentos SharePoint", "Respuesta con fuentes y recomendación"]
       }
     };
-    const TYPE_LABEL = { web: "Web ejecutiva", mobile: "Aplicación mobile", agent: "Agente conversacional" };
+    const TYPE_LABEL = { web: "Web ecommerce", mobile: "App mobile turnos", agent: "Agente sobre reporte" };
     const PALETTE_LABEL = { rose: "Executive rose", blue: "Corporate blue", green: "Operations green", amber: "Decision amber" };
     const outputType = document.getElementById("outputType");
     const businessTheme = document.getElementById("businessTheme");
@@ -887,26 +920,26 @@
       if (type === "mobile") {
         return `<div class="mobile-sketch">
           <div class="badge">${data.names.mobile}</div>
-          <div class="mobile-line">Prioridad alta · 3 casos</div>
-          <div class="mobile-line">Siguiente acción sugerida</div>
-          <div class="mobile-line">Aprobación pendiente</div>
-          <div class="mobile-line">Resumen para responsable</div>
+          <div class="mobile-line">Cardiología · Dra. Luna</div>
+          <div class="mobile-line">Hoy 16:30 · Mañana 10:00</div>
+          <div class="mobile-line">Prepaga verificada</div>
+          <div class="mobile-line">Confirmación y recordatorio</div>
         </div>`;
       }
       if (type === "agent") {
         return `<div class="chat-sketch">
-          <div class="bubble">Necesito saber qué casos requieren atención hoy.</div>
-          <div class="bubble agent">Encontré 3 prioridades. La principal requiere intervención porque combina impacto alto, SLA vencido y cliente estratégico.</div>
-          <div class="bubble">¿Qué acción recomiendas?</div>
-          <div class="bubble agent">Preparar respuesta, actualizar sistema y pedir aprobación antes de ejecutar. Puedo dejar el borrador listo.</div>
+          <div class="bubble">¿Por qué cayó el margen si las ventas subieron?</div>
+          <div class="bubble agent">El reporte muestra más ventas, pero SharePoint indica suba de descuentos y logística. Recomendación: revisar promociones Región Sur.</div>
+          <div class="bubble">Mostrame fuentes.</div>
+          <div class="bubble agent">Power BI: margen por región. SharePoint: minuta comercial y política de descuentos.</div>
         </div>`;
       }
       return `<div class="mock-toolbar"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
-        <div class="mock-hero"><h4>${data.names.web}</h4><p>Panel ejecutivo para ${data.desc}.</p></div>
+        <div class="mock-hero"><h4>${data.names.web}</h4><p>Landing ecommerce para ${data.desc}.</p></div>
         <div class="mock-columns">
-          <div class="mock-box"><b>Señales</b><small>3 alertas priorizadas</small></div>
-          <div class="mock-box"><b>Acción</b><small>Plan recomendado</small></div>
-          <div class="mock-box"><b>Control</b><small>Aprobación requerida</small></div>
+          <div class="mock-box"><b>Productos</b><small>Catálogo con selección</small></div>
+          <div class="mock-box"><b>Carrito</b><small>Subtotal en vivo</small></div>
+          <div class="mock-box"><b>Pagos</b><small>Tarjeta, transferencia, wallet</small></div>
         </div>`;
     }
 
@@ -924,9 +957,9 @@
     }
 
     const presets = {
-      "retention-web": ["web", "retention", "rose"],
-      "sla-mobile": ["mobile", "sla", "green"],
-      "invoice-agent": ["agent", "invoice", "amber"]
+      "commerce-web": ["web", "commerce", "rose"],
+      "health-mobile": ["mobile", "health", "green"],
+      "report-agent": ["agent", "report", "blue"]
     };
     ideaButtons.forEach(btn => {
       btn.addEventListener("click", () => {
