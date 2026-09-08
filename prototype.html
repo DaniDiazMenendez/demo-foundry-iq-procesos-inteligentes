@@ -315,11 +315,21 @@
       overflow: hidden;
     }
     .chat-head, .chat-input { padding: 16px; background: var(--cp-surface-soft); border-bottom: 1px solid var(--cp-border); }
-    .chat-input { border-bottom: 0; border-top: 1px solid var(--cp-border); display: flex; gap: 10px; }
+    .chat-input { border-bottom: 0; border-top: 1px solid var(--cp-border); display: grid; gap: 10px; }
+    .chat-compose { display: flex; gap: 10px; }
+    .chat-compose input {
+      flex: 1;
+      min-width: 0;
+      border: 1px solid var(--cp-border);
+      background: var(--cp-surface);
+      color: var(--cp-text);
+      border-radius: 0.625rem;
+      padding: 10px 12px;
+    }
     .messages { padding: 18px; display: grid; gap: 12px; align-content: start; overflow: auto; }
     .msg { max-width: 82%; border: 1px solid var(--cp-border); background: var(--cp-surface-soft); border-radius: 18px; padding: 12px 14px; color: var(--cp-text-muted); line-height: 1.4; }
     .msg.agent { margin-left: auto; background: var(--brand-soft); color: var(--cp-text); border-color: var(--cp-border-strong); }
-    .quickbar { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+    .quickbar { display: flex; gap: 8px; flex-wrap: wrap; }
     .report-tabs {
       display: flex;
       gap: 8px;
@@ -556,27 +566,28 @@
             <aside class="report-side">
               <span class="badge">Power BI report</span>
               <div class="side-item"><strong>Dataset</strong><span>Ventas corporativas · Q3</span></div>
-              <div class="side-item"><strong>Filtro</strong><span>Argentina · Región Sur</span></div>
+              <div class="side-item"><strong>Filtro</strong><span id="reportFilter">Argentina · Región Sur</span></div>
               <div class="side-item"><strong>Actualizado</strong><span>hace 12 minutos</span></div>
               <span class="badge">SharePoint</span>
-              <div class="side-item"><strong>Minuta comercial</strong><span>Promociones agresivas</span></div>
-              <div class="side-item"><strong>Política Q3</strong><span>Descuentos excepcionales</span></div>
+              <div id="sourceContext">
+                <div class="side-item"><strong>Minuta comercial</strong><span>Promociones agresivas</span></div>
+                <div class="side-item"><strong>Política Q3</strong><span>Descuentos excepcionales</span></div>
+              </div>
             </aside>
             <section>
-              <h2>Sales & Margin Command Center</h2>
-              <div class="report-tabs"><button class="report-tab active">Margen</button><button class="report-tab">Ventas</button><button class="report-tab">Descuentos</button><button class="report-tab">Región Sur</button></div>
-              <div class="kpis">
-                <div class="kpi"><strong>+12%</strong><span>ventas vs mes anterior</span></div>
-                <div class="kpi"><strong>-4.8</strong><span>puntos de margen</span></div>
-                <div class="kpi"><strong>37%</strong><span>ventas con descuento</span></div>
+              <h2 id="reportHeading">Sales & Margin Command Center</h2>
+              <div class="report-tabs">
+                <button class="report-tab active" data-report="margin" type="button">Margen</button>
+                <button class="report-tab" data-report="sales" type="button">Ventas</button>
+                <button class="report-tab" data-report="discounts" type="button">Descuentos</button>
+                <button class="report-tab" data-report="south" type="button">Región Sur</button>
               </div>
+              <div class="kpis" id="reportKpis"></div>
               <div class="viz-grid">
-                <div class="viz"><h3>Ventas por semana</h3><div class="spark"><span style="--h:42%;--o:.45"></span><span style="--h:58%;--o:.55"></span><span style="--h:64%;--o:.65"></span><span style="--h:80%;--o:.8"></span><span style="--h:92%;--o:1"></span></div></div>
-                <div class="viz"><h3>Margen saludable</h3><div class="donut"><strong>62%</strong></div></div>
+                <div class="viz"><h3 id="sparkTitle">Ventas por semana</h3><div class="spark" id="sparkBars"></div></div>
+                <div class="viz"><h3 id="donutTitle">Margen saludable</h3><div class="donut" id="donut"><strong id="donutValue">62%</strong></div></div>
               </div>
-              <div class="row"><div><strong>Región Norte</strong><span>Ventas y margen saludables</span><div class="bar"><span style="--v:82%"></span></div></div><strong>82</strong></div>
-              <div class="row"><div><strong>Región Centro</strong><span>Crecimiento moderado</span><div class="bar"><span style="--v:64%"></span></div></div><strong>64</strong></div>
-              <div class="row"><div><strong>Región Sur</strong><span>Ventas altas con margen bajo</span><div class="bar"><span style="--v:43%"></span></div></div><strong>43</strong></div>
+              <div id="reportRows"></div>
             </section>
           </div>
         </div>
@@ -586,22 +597,105 @@
             <div class="msg">¿Por qué cayó el margen si las ventas subieron?</div>
             <div class="msg agent">El reporte muestra +12% en ventas, pero SharePoint indica promociones agresivas en Región Sur. La hipótesis más fuerte es crecimiento impulsado por descuento, no por demanda orgánica.</div>
           </div>
-          <div class="chat-input"><button class="ghost quick" data-q="margin" type="button">Margen</button><button class="ghost quick" data-q="sources" type="button">Fuentes</button><button class="ghost quick" data-q="action" type="button">Acción</button><button class="ghost quick" data-q="risk" type="button">Riesgo</button></div>
+          <div class="chat-input">
+            <div class="quickbar"><button class="ghost quick" data-q="margin" type="button">Margen</button><button class="ghost quick" data-q="sales" type="button">Ventas</button><button class="ghost quick" data-q="discounts" type="button">Descuentos</button><button class="ghost quick" data-q="sources" type="button">Fuentes</button><button class="ghost quick" data-q="action" type="button">Acción</button><button class="ghost quick" data-q="risk" type="button">Riesgo</button></div>
+            <div class="chat-compose"><input id="chatQuestion" aria-label="Pregunta para el agente" placeholder="Escribí una pregunta: margen, ventas, descuentos, región sur..." /><button class="btn" id="askAgent" type="button">Preguntar</button></div>
+          </div>
         </div>
       </div>`;
     }
     function mountAgent() {
       const messages = document.getElementById("messages");
+      const reportData = {
+        margin: {
+          heading: "Sales & Margin Command Center",
+          filter: "Argentina · Todas las regiones",
+          kpis: [["+12%", "ventas vs mes anterior"], ["-4.8", "puntos de margen"], ["37%", "ventas con descuento"]],
+          spark: [42, 58, 64, 80, 92],
+          sparkTitle: "Ventas por semana",
+          donutTitle: "Margen saludable",
+          donut: "62%",
+          sources: [["Minuta comercial", "Promociones agresivas"], ["Política Q3", "Descuentos excepcionales"]],
+          rows: [["Región Norte", "Ventas y margen saludables", 82], ["Región Centro", "Crecimiento moderado", 64], ["Región Sur", "Ventas altas con margen bajo", 43]]
+        },
+        sales: {
+          heading: "Sales Growth View",
+          filter: "Argentina · Ventas netas",
+          kpis: [["USD 4.8M", "ventas del mes"], ["+12%", "crecimiento mensual"], ["68%", "pipeline convertido"]],
+          spark: [38, 44, 57, 76, 88],
+          sparkTitle: "Ventas acumuladas",
+          donutTitle: "Conversión pipeline",
+          donut: "68%",
+          sources: [["Forecast comercial", "Oportunidades cerradas"], ["Campaña Q3", "Mayor conversión en Sur"]],
+          rows: [["Enterprise", "Mayor volumen de venta", 91], ["Mid-market", "Crecimiento estable", 72], ["SMB", "Baja contribución", 38]]
+        },
+        discounts: {
+          heading: "Discount Pressure View",
+          filter: "Argentina · Promociones Q3",
+          kpis: [["37%", "ventas con descuento"], ["-9.2%", "precio promedio"], ["14", "excepciones activas"]],
+          spark: [22, 31, 46, 67, 86],
+          sparkTitle: "Uso de descuentos",
+          donutTitle: "Excepciones aprobadas",
+          donut: "74%",
+          sources: [["Política de descuentos Q3", "Excepciones para cuentas estratégicas"], ["Minuta comité comercial", "Extensión de promociones"]],
+          rows: [["Descuento estándar", "Dentro de política", 58], ["Descuento especial", "Requiere justificación", 74], ["Excepción ejecutiva", "Impacta margen", 86]]
+        },
+        south: {
+          heading: "Región Sur Deep Dive",
+          filter: "Argentina · Región Sur",
+          kpis: [["+18%", "ventas en Sur"], ["-7.1", "puntos de margen"], ["42%", "órdenes express"]],
+          spark: [48, 52, 66, 84, 96],
+          sparkTitle: "Ventas Región Sur",
+          donutTitle: "Salud de margen Sur",
+          donut: "43%",
+          sources: [["Plan de logística", "Incremento entregas express"], ["Minuta comercial", "Promoción extendida en Sur"]],
+          rows: [["Buenos Aires", "Ventas altas con descuento", 48], ["Córdoba", "Crecimiento sano", 67], ["Patagonia", "Logística presiona margen", 39]]
+        }
+      };
       const answers = {
-        margin: ["Explicame el margen.", "Power BI muestra que la caída de margen se concentra en Región Sur. Al cruzarlo con SharePoint, aparecen dos causas probables: descuentos excepcionales aprobados en Q3 y mayor costo logístico por entregas express."],
-        sources: ["Mostrame las fuentes.", "Fuentes usadas: Power BI margen por región, minuta de comité comercial y política de descuentos Q3 en SharePoint."],
-        action: ["¿Qué acción recomendamos?", "Acción recomendada: pausar extensión de promociones en Región Sur, separar ventas con descuento de ventas orgánicas, revisar costo de logística express y presentar ajuste en comité comercial."],
+        margin: ["Explicame el margen.", "Power BI muestra que el margen cae 4.8 puntos mientras las ventas suben. Al contrastarlo con SharePoint, las causas más probables son descuentos excepcionales y mayor costo de entregas express en Región Sur."],
+        sales: ["¿Las ventas están bien?", "Sí, las ventas crecen 12% y el pipeline convertido llega a 68%. El punto a mirar es calidad de venta: parte del crecimiento viene con más descuento y menor margen."],
+        discounts: ["¿Qué pasa con descuentos?", "El 37% de las ventas tiene descuento y hay 14 excepciones activas. SharePoint confirma que Q3 habilitó descuentos para cuentas estratégicas; conviene separar ventas orgánicas de ventas subsidiadas."],
+        sources: ["Mostrame las fuentes.", "Fuentes usadas: Power BI margen por región, forecast comercial, minuta de comité comercial, política de descuentos Q3 y plan de logística en SharePoint."],
+        action: ["¿Qué acción recomendamos?", "Acción recomendada: pausar extensión de promociones en Región Sur, separar ventas con descuento de ventas orgánicas, revisar logística express y presentar ajuste en comité comercial."],
         risk: ["¿Cuál es el riesgo?", "Riesgo principal: celebrar crecimiento de ventas que en realidad está comprando volumen con margen. Si continúa, el trimestre puede cerrar con ingresos altos pero rentabilidad por debajo del objetivo."]
       };
-      document.querySelectorAll("[data-q]").forEach(btn => btn.addEventListener("click", () => {
-        const pair = answers[btn.dataset.q];
-        messages.insertAdjacentHTML("beforeend", `<div class="msg">${pair[0]}</div><div class="msg agent">${pair[1]}</div>`);
+      function renderReport(view) {
+        const data = reportData[view];
+        document.getElementById("reportHeading").textContent = data.heading;
+        document.getElementById("reportFilter").textContent = data.filter;
+        document.getElementById("reportKpis").innerHTML = data.kpis.map(item => `<div class="kpi"><strong>${item[0]}</strong><span>${item[1]}</span></div>`).join("");
+        document.getElementById("sparkTitle").textContent = data.sparkTitle;
+        document.getElementById("sparkBars").innerHTML = data.spark.map((value, index) => `<span style="--h:${value}%;--o:${0.45 + index * 0.13}"></span>`).join("");
+        document.getElementById("donutTitle").textContent = data.donutTitle;
+        document.getElementById("donutValue").textContent = data.donut;
+        document.getElementById("sourceContext").innerHTML = data.sources.map(item => `<div class="side-item"><strong>${item[0]}</strong><span>${item[1]}</span></div>`).join("");
+        document.getElementById("reportRows").innerHTML = data.rows.map(row => `<div class="row"><div><strong>${row[0]}</strong><span>${row[1]}</span><div class="bar"><span style="--v:${row[2]}%"></span></div></div><strong>${row[2]}</strong></div>`).join("");
+        document.querySelectorAll("[data-report]").forEach(tab => tab.classList.toggle("active", tab.dataset.report === view));
+      }
+      function ask(key, customQuestion) {
+        const pair = answers[key] || answers.margin;
+        const question = customQuestion || pair[0];
+        messages.insertAdjacentHTML("beforeend", `<div class="msg">${question}</div><div class="msg agent">${pair[1]}</div>`);
+        messages.scrollTop = messages.scrollHeight;
+      }
+      document.querySelectorAll("[data-report]").forEach(tab => tab.addEventListener("click", () => {
+        renderReport(tab.dataset.report);
+        ask(tab.dataset.report, `Analizá la vista ${tab.textContent}.`);
       }));
+      document.querySelectorAll("[data-q]").forEach(btn => btn.addEventListener("click", () => ask(btn.dataset.q)));
+      document.getElementById("askAgent").addEventListener("click", () => {
+        const input = document.getElementById("chatQuestion");
+        const text = input.value.trim();
+        const lower = text.toLowerCase();
+        const key = lower.includes("venta") ? "sales" : lower.includes("descuento") || lower.includes("promo") ? "discounts" : lower.includes("fuente") || lower.includes("sharepoint") ? "sources" : lower.includes("riesgo") ? "risk" : lower.includes("acción") || lower.includes("accion") || lower.includes("recomend") ? "action" : "margin";
+        ask(key, text || "Explicame qué está pasando.");
+        input.value = "";
+      });
+      document.getElementById("chatQuestion").addEventListener("keydown", (event) => {
+        if (event.key === "Enter") document.getElementById("askAgent").click();
+      });
+      renderReport("margin");
     }
 
     const render = document.getElementById("render");
