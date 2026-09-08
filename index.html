@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Demo | FoundryIQ y procesos inteligentes</title>
+  <title>FoundryIQ Process Studio | Microsoft IQ Summit</title>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23b11f4b'/%3E%3Ctext x='16' y='22' text-anchor='middle' font-family='Arial' font-size='18' font-weight='700' fill='white'%3EF%3C/text%3E%3C/svg%3E">
   <script>
     (() => {
@@ -71,205 +71,347 @@
     html { scroll-behavior: smooth; }
     body {
       margin: 0;
-      min-height: 100vh;
       background:
-        radial-gradient(circle at top left, var(--cp-accent-soft), transparent 28rem),
-        radial-gradient(circle at 88% 12%, var(--cp-highlight), transparent 26rem),
-        var(--cp-bg);
+        radial-gradient(circle at top left, var(--cp-accent-soft), transparent 32rem),
+        radial-gradient(circle at 90% 4%, var(--cp-highlight), transparent 30rem),
+        linear-gradient(180deg, var(--cp-bg-elevated), var(--cp-bg));
       color: var(--cp-text);
       font-family: "Segoe UI", Aptos, Calibri, -apple-system, BlinkMacSystemFont, sans-serif;
     }
-    button, textarea, select { font: inherit; }
+    button, input, textarea, select { font: inherit; }
     button { cursor: pointer; }
-    .shell { width: min(1180px, calc(100% - 32px)); margin: 0 auto; }
+    .shell { width: min(1200px, calc(100% - 32px)); margin: 0 auto; }
     .topbar {
-      position: sticky; top: 0; z-index: 20;
-      backdrop-filter: blur(18px);
+      position: sticky; top: 0; z-index: 50;
       background: var(--cp-overlay);
+      backdrop-filter: blur(18px);
       border-bottom: 1px solid var(--cp-border);
     }
     .nav {
-      height: 68px; display: flex; align-items: center; justify-content: space-between; gap: 24px;
+      min-height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
     }
     .brand { display: flex; align-items: center; gap: 12px; font-weight: 800; letter-spacing: -0.03em; }
     .mark {
-      width: 40px; height: 40px; border-radius: 14px;
+      width: 42px; height: 42px; border-radius: 16px;
       display: grid; place-items: center;
       background: var(--cp-accent);
       color: var(--cp-accent-fg);
       box-shadow: 0 0 2px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.14);
     }
-    .navlinks { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
-    .navlinks a {
-      color: var(--cp-text-muted); text-decoration: none; font-size: 0.92rem;
-      padding: 8px 12px; border-radius: 999px;
+    .navlinks { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
+    .navlinks a, .pill {
+      color: var(--cp-text-muted);
+      text-decoration: none;
+      border: 1px solid var(--cp-border);
+      background: var(--cp-panel);
+      padding: 8px 11px;
+      border-radius: 999px;
+      font-size: 0.9rem;
     }
-    .navlinks a:hover { color: var(--cp-text); background: var(--cp-accent-soft); }
+    .navlinks a:hover { color: var(--cp-text); background: var(--cp-accent-soft); border-color: var(--cp-border-strong); }
     .hero {
-      display: grid; grid-template-columns: 1.02fr 0.98fr; gap: 36px;
-      align-items: center; padding: 72px 0 48px;
+      padding: 58px 0 34px;
+      display: grid;
+      grid-template-columns: 1fr 1.02fr;
+      gap: 36px;
+      align-items: center;
     }
     .eyebrow {
-      color: var(--cp-accent); font-weight: 800; letter-spacing: 0.14em;
-      font-size: 0.75rem; text-transform: uppercase; margin-bottom: 16px;
+      color: var(--cp-accent);
+      font-weight: 800;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      margin-bottom: 16px;
     }
     h1 {
-      font-size: clamp(2.6rem, 6vw, 5.2rem);
-      line-height: 0.94; margin: 0 0 22px; letter-spacing: -0.075em;
+      margin: 0 0 20px;
+      font-size: clamp(2.7rem, 6vw, 5.4rem);
+      line-height: 0.92;
+      letter-spacing: -0.085em;
     }
     .lead {
-      font-size: clamp(1.05rem, 2vw, 1.28rem); line-height: 1.55;
-      color: var(--cp-text-muted); max-width: 62ch; margin: 0 0 26px;
+      margin: 0 0 26px;
+      max-width: 64ch;
+      color: var(--cp-text-muted);
+      line-height: 1.55;
+      font-size: clamp(1.06rem, 1.8vw, 1.24rem);
     }
-    .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+    .actions { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
     .btn {
-      border: 1px solid var(--cp-border); border-radius: 0.625rem;
-      padding: 12px 16px; background: var(--cp-surface);
-      color: var(--cp-text); text-decoration: none; display: inline-flex; gap: 8px; align-items: center;
+      border: 1px solid var(--cp-border);
+      border-radius: 0.625rem;
+      padding: 12px 16px;
+      background: var(--cp-surface);
+      color: var(--cp-text);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
       box-shadow: 0 0 2px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.14);
     }
     .btn.primary { background: var(--cp-accent); color: var(--cp-accent-fg); border-color: var(--cp-accent); }
-    .stage {
-      background: var(--cp-panel);
+    .btn:hover { border-color: var(--cp-border-strong); }
+    .board {
+      background: var(--cp-panel-strong);
       border: 1px solid var(--cp-border);
       border-radius: 24px;
-      padding: 26px;
+      padding: 22px;
       box-shadow: var(--cp-shadow);
-      position: relative; overflow: hidden;
+      position: relative;
+      overflow: hidden;
     }
-    .stage::before {
-      content: ""; position: absolute; inset: 0;
+    .board::before {
+      content: "";
+      position: absolute;
+      inset: 0;
       background:
-        linear-gradient(90deg, transparent, var(--cp-sheen), transparent),
-        radial-gradient(circle at 20% 10%, var(--cp-highlight), transparent 18rem);
+        radial-gradient(circle at 18% 14%, var(--cp-accent-soft), transparent 18rem),
+        radial-gradient(circle at 86% 18%, var(--cp-highlight), transparent 16rem);
       pointer-events: none;
     }
-    .puzzle-grid {
-      position: relative; display: grid; grid-template-columns: repeat(3, 1fr);
-      gap: 14px; min-height: 348px;
+    .puzzle-map {
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
     }
-    .puzzle {
-      position: relative; min-height: 152px; padding: 24px 16px 18px;
-      border: 2px solid var(--piece);
-      border-radius: 16px;
-      background: var(--cp-panel-strong);
-      box-shadow: 0 0 2px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.14);
-      display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;
-    }
-    .puzzle::before, .puzzle::after {
-      content: ""; position: absolute; width: 28px; height: 28px; border-radius: 50%;
-      background: var(--cp-panel-strong); border: 2px solid var(--piece);
-    }
-    .puzzle::before { top: -17px; left: calc(50% - 14px); }
-    .puzzle::after { right: -17px; top: calc(50% - 14px); }
-    .puzzle .notch {
-      position: absolute; width: 30px; height: 30px; border-radius: 50%;
-      background: var(--cp-bg); left: -17px; top: calc(50% - 15px);
-      border: 1px solid var(--cp-bg);
-    }
-    .puzzle h3 { margin: 0 0 8px; font-size: 1.02rem; letter-spacing: -0.03em; }
-    .puzzle p { margin: 0; color: var(--cp-text-muted); font-size: 0.9rem; line-height: 1.35; }
-    .p1 { --piece: var(--cp-accent); }
-    .p2 { --piece: var(--cp-link); }
-    .p3 { --piece: var(--cp-success); }
-    .p4 { --piece: var(--cp-warning); }
-    .p5 { --piece: var(--cp-danger); }
-    .p6 { --piece: var(--cp-border-strong); }
-
-    section { padding: 54px 0; }
-    .section-head { display: flex; justify-content: space-between; gap: 24px; align-items: end; margin-bottom: 24px; }
-    .section-head h2 { margin: 0; font-size: clamp(1.8rem, 3vw, 2.7rem); letter-spacing: -0.055em; }
-    .section-head p { margin: 0; max-width: 54ch; color: var(--cp-text-muted); line-height: 1.5; }
-    .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-    .card {
+    .piece {
+      position: relative;
+      min-height: 148px;
+      border: 2px solid var(--cp-border-strong);
       background: var(--cp-surface);
-      border: 1px solid var(--cp-border);
       border-radius: 16px;
-      padding: 20px;
+      padding: 22px 16px 16px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
       box-shadow: 0 0 2px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.14);
     }
-    .card .num { color: var(--cp-accent); font-size: 0.82rem; font-weight: 800; margin-bottom: 18px; }
-    .card h3 { margin: 0 0 10px; font-size: 1.15rem; letter-spacing: -0.025em; }
-    .card p { margin: 0; color: var(--cp-text-muted); line-height: 1.5; }
-    .demo-panel {
-      display: grid; grid-template-columns: 0.95fr 1.05fr; gap: 18px;
+    .piece::before, .piece::after {
+      content: "";
+      position: absolute;
+      width: 28px; height: 28px;
+      border: 2px solid var(--cp-border-strong);
+      border-radius: 50%;
+      background: var(--cp-surface);
+    }
+    .piece::before { top: -17px; left: calc(50% - 14px); }
+    .piece::after { right: -17px; top: calc(50% - 14px); }
+    .piece .notch {
+      position: absolute;
+      width: 30px; height: 30px;
+      left: -17px; top: calc(50% - 15px);
+      border-radius: 50%;
+      background: var(--cp-panel-strong);
+    }
+    .piece h3 { margin: 0 0 8px; font-size: 1.02rem; letter-spacing: -0.035em; }
+    .piece p { margin: 0; color: var(--cp-text-muted); font-size: 0.9rem; line-height: 1.35; }
+    .piece.feature { border-color: var(--cp-accent); background: var(--cp-accent-soft); }
+    .piece.linked { border-color: var(--cp-link); }
+    .piece.ok { border-color: var(--cp-success); }
+    .piece.warn { border-color: var(--cp-warning); }
+    .piece.risk { border-color: var(--cp-danger); }
+
+    section { padding: 48px 0; }
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 24px;
+      margin-bottom: 22px;
+    }
+    .section-head h2 {
+      margin: 0;
+      font-size: clamp(1.9rem, 3.3vw, 3rem);
+      letter-spacing: -0.065em;
+      line-height: 1;
+    }
+    .section-head p {
+      margin: 0;
+      color: var(--cp-text-muted);
+      max-width: 56ch;
+      line-height: 1.5;
+    }
+    .tabs {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+    .tab {
+      border: 1px solid var(--cp-border);
+      background: var(--cp-surface);
+      color: var(--cp-text-muted);
+      border-radius: 999px;
+      padding: 10px 14px;
+    }
+    .tab.active {
+      background: var(--cp-accent);
+      border-color: var(--cp-accent);
+      color: var(--cp-accent-fg);
+      font-weight: 700;
+    }
+    .workspace {
+      display: grid;
+      grid-template-columns: 270px 1fr;
+      gap: 16px;
       background: var(--cp-surface);
       border: 1px solid var(--cp-border);
       border-radius: 24px;
-      padding: 18px;
+      padding: 16px;
       box-shadow: var(--cp-shadow);
     }
-    .scenario-list { display: grid; gap: 10px; }
-    .scenario {
-      text-align: left; border: 1px solid var(--cp-border); background: var(--cp-surface-soft);
-      border-radius: 16px; padding: 14px; color: var(--cp-text);
+    .rail {
+      display: grid;
+      gap: 10px;
+      align-content: start;
     }
-    .scenario.active { border-color: var(--cp-accent); background: var(--cp-accent-soft); }
-    .scenario strong { display: block; margin-bottom: 4px; }
-    .scenario span { color: var(--cp-text-muted); font-size: 0.9rem; }
-    .screen {
-      min-height: 470px; background: var(--cp-bg-elevated); border: 1px solid var(--cp-border);
-      border-radius: 18px; padding: 18px; display: grid; gap: 14px;
-    }
-    .screen-top { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
-    .status { color: var(--cp-success); font-weight: 800; font-size: 0.82rem; }
-    .agent-answer {
-      background: var(--cp-panel-strong); border: 1px solid var(--cp-border);
-      border-radius: 16px; padding: 18px; line-height: 1.52;
-    }
-    .steps { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
-    .step {
-      border: 1px solid var(--cp-border); background: var(--cp-surface); border-radius: 14px; padding: 10px;
-      min-height: 96px;
-    }
-    .step b { display: block; color: var(--cp-accent); font-size: 0.9rem; margin-bottom: 6px; }
-    .step span { font-size: 0.82rem; color: var(--cp-text-muted); line-height: 1.3; display: block; }
-    .builder {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 18px;
-      background: var(--cp-surface);
+    .rail-card {
+      padding: 14px;
+      border-radius: 16px;
       border: 1px solid var(--cp-border);
-      border-radius: 24px; padding: 18px; box-shadow: var(--cp-shadow);
+      background: var(--cp-surface-soft);
     }
-    textarea {
-      width: 100%; min-height: 180px; resize: vertical;
-      border: 1px solid var(--cp-border); border-radius: 16px; padding: 14px;
-      background: var(--cp-bg-elevated); color: var(--cp-text); line-height: 1.45;
+    .rail-card strong { display: block; margin-bottom: 5px; }
+    .rail-card span { color: var(--cp-text-muted); font-size: 0.9rem; line-height: 1.35; display: block; }
+    .screen {
+      min-height: 520px;
+      background: var(--cp-bg-elevated);
+      border: 1px solid var(--cp-border);
+      border-radius: 20px;
+      padding: 18px;
+      overflow: hidden;
     }
-    .prompt-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 12px; }
-    .small-btn {
-      border: 1px solid var(--cp-border); background: var(--cp-surface-soft); color: var(--cp-text);
-      border-radius: 999px; padding: 8px 11px; font-size: 0.88rem;
+    .screen-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--cp-border);
+      margin-bottom: 16px;
     }
-    .output-grid { display: grid; gap: 10px; }
-    .output {
-      border: 1px solid var(--cp-border); border-radius: 16px; padding: 14px; background: var(--cp-bg-elevated);
+    .screen-title strong { display: block; font-size: 1.12rem; }
+    .screen-title span { color: var(--cp-text-muted); font-size: 0.92rem; }
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--cp-success);
+      font-weight: 800;
+      font-size: 0.84rem;
+      white-space: nowrap;
     }
-    .output strong { color: var(--cp-accent); display: block; margin-bottom: 5px; }
-    .outcome {
-      display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px;
+    .status::before {
+      content: "";
+      width: 9px; height: 9px;
+      border-radius: 50%;
+      background: var(--cp-success);
+    }
+    .panel-grid { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 14px; }
+    .panel, .source, .trace-row, .prototype {
+      background: var(--cp-panel-strong);
+      border: 1px solid var(--cp-border);
+      border-radius: 16px;
+      padding: 14px;
+    }
+    .panel h3, .source h3 { margin: 0 0 10px; letter-spacing: -0.035em; }
+    .answer {
+      line-height: 1.55;
+      color: var(--cp-text);
+      margin-bottom: 12px;
+    }
+    .source-list { display: grid; gap: 9px; }
+    .source {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      padding: 11px 12px;
+    }
+    .source span { color: var(--cp-text-muted); font-size: 0.86rem; }
+    .badge {
+      display: inline-flex;
+      border: 1px solid var(--cp-border);
+      background: var(--cp-accent-soft);
+      color: var(--cp-text);
+      border-radius: 999px;
+      padding: 5px 8px;
+      font-size: 0.76rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    .steps { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-top: 14px; }
+    .step {
+      border: 1px solid var(--cp-border);
+      background: var(--cp-surface);
+      border-radius: 14px;
+      padding: 10px;
+      min-height: 90px;
+    }
+    .step b { color: var(--cp-accent); display: block; margin-bottom: 5px; font-size: 0.86rem; }
+    .step span { color: var(--cp-text-muted); font-size: 0.78rem; line-height: 1.3; display: block; }
+    .trace { display: grid; gap: 10px; margin-top: 14px; }
+    .trace-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    .trace-row small { color: var(--cp-text-muted); }
+    .builder-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .prototype {
+      display: flex;
+      min-height: 260px;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .prototype h3 { margin: 0 0 8px; font-size: 1.2rem; letter-spacing: -0.04em; }
+    .prototype p { margin: 0; color: var(--cp-text-muted); line-height: 1.45; }
+    .checks { display: grid; gap: 8px; margin: 16px 0; }
+    .check {
+      display: flex;
+      gap: 8px;
+      align-items: start;
+      color: var(--cp-text-muted);
+      font-size: 0.9rem;
+    }
+    .check::before {
+      content: "✓";
+      color: var(--cp-success);
+      font-weight: 900;
+    }
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
     }
     .metric {
-      background: var(--cp-surface); border: 1px solid var(--cp-border); border-radius: 16px; padding: 18px;
+      background: var(--cp-surface);
+      border: 1px solid var(--cp-border);
+      border-radius: 16px;
+      padding: 18px;
       text-align: center;
     }
-    .metric strong { display: block; font-size: 2rem; letter-spacing: -0.06em; color: var(--cp-accent); }
-    .metric span { color: var(--cp-text-muted); font-size: 0.9rem; }
-    .note {
-      margin-top: 18px; padding: 16px 18px; border-radius: 16px;
-      background: var(--cp-accent-soft); color: var(--cp-text-muted); border: 1px solid var(--cp-border);
-      line-height: 1.5;
+    .metric strong {
+      display: block;
+      color: var(--cp-accent);
+      font-size: 2rem;
+      letter-spacing: -0.06em;
+      margin-bottom: 3px;
     }
-    @media (max-width: 900px) {
-      .hero, .demo-panel, .builder { grid-template-columns: 1fr; }
-      .cards, .outcome { grid-template-columns: 1fr 1fr; }
+    .metric span { color: var(--cp-text-muted); font-size: 0.92rem; }
+    .hidden { display: none !important; }
+    @media (max-width: 980px) {
+      .hero, .workspace, .panel-grid { grid-template-columns: 1fr; }
+      .builder-grid, .metrics { grid-template-columns: 1fr 1fr; }
       .steps { grid-template-columns: 1fr; }
-      .puzzle-grid { grid-template-columns: 1fr 1fr; }
-      .section-head { display: block; }
     }
-    @media (max-width: 620px) {
-      .cards, .outcome, .puzzle-grid { grid-template-columns: 1fr; }
-      .nav { height: auto; padding: 14px 0; align-items: flex-start; }
+    @media (max-width: 680px) {
       .navlinks { display: none; }
+      .puzzle-map, .builder-grid, .metrics { grid-template-columns: 1fr; }
+      .section-head { display: block; }
     }
   </style>
 </head>
@@ -277,9 +419,8 @@
   <header class="topbar">
     <div class="shell nav">
       <div class="brand"><div class="mark">IQ</div><span>FoundryIQ Process Studio</span></div>
-      <nav class="navlinks" aria-label="Navegación">
-        <a href="#ecosistema">Ecosistema</a>
-        <a href="#demo">Demo agente</a>
+      <nav class="navlinks" aria-label="Navegación principal">
+        <a href="#studio">Foundry</a>
         <a href="#vibe">Vibe coding</a>
         <a href="#impacto">Impacto</a>
       </nav>
@@ -289,236 +430,211 @@
   <main>
     <section class="hero shell">
       <div>
-        <div class="eyebrow">Microsoft IQ Summit · Demo simulada</div>
+        <div class="eyebrow">Microsoft IQ Summit · Buenos Aires</div>
         <h1>De copilotos personales a procesos inteligentes.</h1>
         <p class="lead">
-          Una experiencia para mostrar, sin tecnicismos, cómo FoundryIQ, agentes, servicios de IA, gobierno y GitHub Copilot encastran para acompañar procesos reales del negocio.
+          Una demo ejecutiva para mostrar cómo FoundryIQ, agentes, servicios de IA, gobierno y GitHub Copilot se combinan para acompañar procesos de negocio reales.
         </p>
-        <div class="hero-actions">
-          <a class="btn primary" href="#demo">Ver agente en acción</a>
-          <a class="btn" href="#vibe">Probar vibe coding</a>
+        <div class="actions">
+          <a class="btn primary" href="#studio">Abrir Foundry Studio</a>
+          <a class="btn" href="#vibe">Ver generación por vibe coding</a>
         </div>
       </div>
-      <aside class="stage" id="ecosistema" aria-label="Ecosistema de piezas">
-        <div class="puzzle-grid">
-          <article class="puzzle p1"><span class="notch"></span><h3>FoundryIQ</h3><p>Conocimiento corporativo con contexto y fuentes confiables.</p></article>
-          <article class="puzzle p2"><span class="notch"></span><h3>Agentes</h3><p>Acciones guiadas dentro del proceso, no un chat aislado.</p></article>
-          <article class="puzzle p3"><span class="notch"></span><h3>AI Services</h3><p>Capacidades listas para analizar, entender y generar contenido.</p></article>
-          <article class="puzzle p4"><span class="notch"></span><h3>Governance</h3><p>Reglas, seguridad, trazabilidad y aprobación humana.</p></article>
-          <article class="puzzle p5"><span class="notch"></span><h3>GitHub Copilot</h3><p>Software, integraciones y automatización construidas más rápido.</p></article>
-          <article class="puzzle p6"><span class="notch"></span><h3>Proceso</h3><p>El lugar donde la IA deja de asistir y empieza a operar.</p></article>
+      <aside class="board" aria-label="Mapa de capacidades">
+        <div class="puzzle-map">
+          <article class="piece feature"><span class="notch"></span><h3>FoundryIQ</h3><p>Contexto corporativo con fuentes, permisos y conocimiento reutilizable.</p></article>
+          <article class="piece linked"><span class="notch"></span><h3>Agentes</h3><p>Participan en el proceso: detectan, razonan, proponen y ejecutan.</p></article>
+          <article class="piece ok"><span class="notch"></span><h3>AI Services</h3><p>Capacidades de lenguaje, visión, búsqueda y generación.</p></article>
+          <article class="piece warn"><span class="notch"></span><h3>Governance</h3><p>Evaluación, trazabilidad, seguridad y aprobación humana.</p></article>
+          <article class="piece risk"><span class="notch"></span><h3>GitHub Copilot</h3><p>Acelera las apps e integraciones que llevan la IA al flujo de trabajo.</p></article>
+          <article class="piece"><span class="notch"></span><h3>Proceso</h3><p>Donde la IA deja de ser una ayuda individual y empieza a operar con el negocio.</p></article>
         </div>
       </aside>
     </section>
 
-    <section class="shell">
+    <section id="studio" class="shell">
       <div class="section-head">
-        <h2>La historia para clientes</h2>
-        <p>El mensaje no es “mirá otra herramienta de IA”. El mensaje es: ya tenemos datos y conocimiento; ahora podemos poner inteligencia en el flujo de trabajo.</p>
+        <h2>Foundry más cerca de la realidad</h2>
+        <p>La demo muestra un flujo razonable para clientes: conocimiento conectado, agente con instrucciones, grounding, evaluaciones y trazabilidad.</p>
       </div>
-      <div class="cards">
-        <article class="card"><div class="num">01</div><h3>Productividad personal</h3><p>Copilots ayudan a cada persona a resumir, redactar y analizar mejor.</p></article>
-        <article class="card"><div class="num">02</div><h3>Procesos inteligentes</h3><p>Agentes consultan contexto, proponen acciones y acompañan tareas de negocio.</p></article>
-        <article class="card"><div class="num">03</div><h3>Software a velocidad de negocio</h3><p>GitHub Copilot acelera las apps, integraciones y automatizaciones que conectan todo.</p></article>
-      </div>
-    </section>
 
-    <section id="demo" class="shell">
-      <div class="section-head">
-        <h2>Demo: agente de proceso</h2>
-        <p>Elegí un escenario y mirá cómo el agente usa contexto corporativo simulado para acompañar una decisión de negocio.</p>
+      <div class="tabs" role="tablist" aria-label="Vistas de Foundry Studio">
+        <button class="tab active" data-tab="knowledge" type="button">Knowledge</button>
+        <button class="tab" data-tab="agent" type="button">Agent runtime</button>
+        <button class="tab" data-tab="evaluation" type="button">Evaluation</button>
+        <button class="tab" data-tab="governance" type="button">Governance</button>
       </div>
-      <div class="demo-panel">
-        <div class="scenario-list" id="scenarioList"></div>
-        <div class="screen" aria-live="polite">
-          <div class="screen-top">
-            <div>
-              <strong id="screenTitle">Atención al cliente</strong>
-              <div id="screenSub" class="status">FoundryIQ conectado · Gobierno activo</div>
-            </div>
-            <button class="btn primary" id="runAgent" type="button">Ejecutar agente</button>
-          </div>
-          <div class="agent-answer" id="agentAnswer"></div>
-          <div class="steps" id="agentSteps"></div>
-        </div>
+
+      <div class="workspace">
+        <aside class="rail" id="rail"></aside>
+        <section class="screen" id="screen" aria-live="polite"></section>
       </div>
     </section>
 
     <section id="vibe" class="shell">
       <div class="section-head">
-        <h2>Demo: vibe coding para negocio</h2>
-        <p>Simula cómo una persona de negocio describe una necesidad y obtiene un primer prototipo de proceso, sin entrar en código.</p>
+        <h2>Vibe coding: de una idea a una mini app</h2>
+        <p>Elegí una necesidad de negocio. Cada opción abre otra pestaña con una web generada para ese escenario, con condiciones y comportamiento propios.</p>
       </div>
-      <div class="builder">
-        <div>
-          <textarea id="promptBox">Quiero un flujo para priorizar reclamos de clientes VIP, sugerir respuesta, actualizar el CRM y avisar al responsable si hay riesgo de churn.</textarea>
-          <div class="prompt-actions">
-            <button class="small-btn" data-template="ventas">Ejemplo ventas</button>
-            <button class="small-btn" data-template="ops">Ejemplo operaciones</button>
-            <button class="small-btn" data-template="rrhh">Ejemplo RRHH</button>
-            <button class="btn primary" id="buildPrototype" type="button">Generar prototipo</button>
+
+      <div class="builder-grid">
+        <article class="prototype">
+          <div>
+            <span class="pill">Ventas y retención</span>
+            <h3>Customer Retention Desk</h3>
+            <p>Mini app para priorizar cuentas con riesgo, sugerir acciones y preparar seguimiento ejecutivo.</p>
+            <div class="checks">
+              <div class="check">Condición: riesgo mayor a 72</div>
+              <div class="check">Acción: generar plan de retención</div>
+              <div class="check">Escala: account owner si hay churn probable</div>
+            </div>
           </div>
-          <div class="note">
-            Esta sección es simulada: muestra la experiencia de conversación y diseño, no una integración real. Ideal para explicar el concepto sin que la demo se vuelva técnica.
+          <a class="btn primary" target="_blank" rel="noreferrer" href="prototype.html?scenario=retention">Generar demo</a>
+        </article>
+        <article class="prototype">
+          <div>
+            <span class="pill">Operaciones</span>
+            <h3>SLA Recovery Console</h3>
+            <p>Mini app para detectar desvíos de SLA, entender causas y proponer acciones correctivas.</p>
+            <div class="checks">
+              <div class="check">Condición: SLA bajo objetivo</div>
+              <div class="check">Acción: reasignar cola crítica</div>
+              <div class="check">Escala: gerente si el impacto supera umbral</div>
+            </div>
           </div>
-        </div>
-        <div class="output-grid" id="prototypeOutput"></div>
+          <a class="btn primary" target="_blank" rel="noreferrer" href="prototype.html?scenario=sla">Generar demo</a>
+        </article>
+        <article class="prototype">
+          <div>
+            <span class="pill">Back office</span>
+            <h3>Invoice Exception Hub</h3>
+            <p>Mini app para clasificar excepciones de facturas, sugerir resolución y dejar trazabilidad.</p>
+            <div class="checks">
+              <div class="check">Condición: diferencia mayor a 5%</div>
+              <div class="check">Acción: pedir evidencia o aprobar</div>
+              <div class="check">Escala: finanzas si hay riesgo de pago</div>
+            </div>
+          </div>
+          <a class="btn primary" target="_blank" rel="noreferrer" href="prototype.html?scenario=invoice">Generar demo</a>
+        </article>
       </div>
     </section>
 
     <section id="impacto" class="shell">
       <div class="section-head">
-        <h2>Qué se llevan del evento</h2>
-        <p>Una forma simple de explicar el valor: la IA empresarial no vive en una app aislada; se encastra con conocimiento, procesos y software.</p>
+        <h2>Qué tiene que quedar claro mañana</h2>
+        <p>Foundry aporta la inteligencia gobernada; GitHub Copilot acelera cómo esa inteligencia llega a aplicaciones e integraciones; el valor aparece dentro del proceso.</p>
       </div>
-      <div class="outcome">
-        <div class="metric"><strong>1</strong><span>contexto común para decidir</span></div>
-        <div class="metric"><strong>5</strong><span>piezas que encastran</span></div>
-        <div class="metric"><strong>0</strong><span>tecnicismo innecesario</span></div>
-        <div class="metric"><strong>∞</strong><span>casos de negocio posibles</span></div>
+      <div class="metrics">
+        <div class="metric"><strong>1</strong><span>contexto corporativo</span></div>
+        <div class="metric"><strong>4</strong><span>capas de control</span></div>
+        <div class="metric"><strong>3</strong><span>mini apps por vibe coding</span></div>
+        <div class="metric"><strong>0</strong><span>profundidad técnica innecesaria</span></div>
       </div>
     </section>
   </main>
 
   <script>
-    const scenarios = [
-      {
-        id: "clientes",
-        title: "Atención al cliente",
-        subtitle: "Riesgo de churn en cuenta estratégica",
-        answer: "Detecté un reclamo crítico de una cuenta prioritaria. FoundryIQ recuperó contrato, historial de tickets y últimos compromisos comerciales. Recomiendo respuesta personalizada, bonificación preventiva y seguimiento ejecutivo en 24 horas.",
-        steps: [
-          ["Detecta", "Reclamo crítico entrante"],
-          ["Entiende", "Cruza contrato, tickets y prioridad"],
-          ["Propone", "Respuesta y plan de retención"],
-          ["Actúa", "Prepara actualización de CRM"],
-          ["Escala", "Avisa al responsable comercial"]
-        ]
+    const views = {
+      knowledge: {
+        rail: [
+          ["Customer 360", "CRM, tickets, reuniones y contratos."],
+          ["Políticas comerciales", "Descuentos, retención y aprobaciones."],
+          ["Knowledge base", "FAQs, guías internas y playbooks."]
+        ],
+        screen: `
+          <div class="screen-top"><div class="screen-title"><strong>FoundryIQ · Knowledge layer</strong><span>Fuentes conectadas con permisos heredados</span></div><div class="status">Ready</div></div>
+          <div class="panel-grid">
+            <div class="panel">
+              <h3>Consulta de negocio</h3>
+              <div class="answer">"¿Qué cuentas estratégicas requieren intervención esta semana y cuál es la mejor próxima acción?"</div>
+              <div class="answer">FoundryIQ combina señales comerciales, soporte y compromisos abiertos para entregar contexto accionable, no solo una respuesta textual.</div>
+            </div>
+            <div class="source-list">
+              <div class="source"><div><strong>CRM pipeline</strong><span>12 oportunidades activas</span></div><span class="badge">Permisos OK</span></div>
+              <div class="source"><div><strong>Soporte</strong><span>Tickets críticos y SLA</span></div><span class="badge">Grounded</span></div>
+              <div class="source"><div><strong>Contratos</strong><span>Renovación y condiciones</span></div><span class="badge">Citado</span></div>
+            </div>
+          </div>`
       },
-      {
-        id: "ventas",
-        title: "Ventas B2B",
-        subtitle: "Oportunidad estancada antes del cierre",
-        answer: "La oportunidad lleva 21 días sin avance y tiene señales positivas en reuniones recientes. Sugiero una propuesta ejecutiva con tres beneficios de negocio, próximos pasos y un correo de seguimiento listo para enviar.",
-        steps: [
-          ["Detecta", "Pipeline sin movimiento"],
-          ["Entiende", "Lee notas, reuniones y forecast"],
-          ["Propone", "Siguiente mejor acción"],
-          ["Actúa", "Genera borrador comercial"],
-          ["Escala", "Pide aprobación del account owner"]
-        ]
+      agent: {
+        rail: [
+          ["Trigger", "Nueva señal o evento de negocio."],
+          ["Instructions", "Objetivo, límites y tono del agente."],
+          ["Actions", "Actualizar CRM, crear tarea, enviar borrador."]
+        ],
+        screen: `
+          <div class="screen-top"><div class="screen-title"><strong>Agent runtime · Account recovery</strong><span>Orquestación con human-in-the-loop</span></div><button class="btn primary" id="runAgent" type="button">Ejecutar</button></div>
+          <div class="panel">
+            <h3>Respuesta del agente</h3>
+            <div class="answer" id="agentText">Listo para analizar señales de cuentas estratégicas.</div>
+          </div>
+          <div class="steps" id="steps">
+            <div class="step"><b>Detecta</b><span>Ticket crítico + baja interacción</span></div>
+            <div class="step"><b>Entiende</b><span>Revisa contrato, historial y reuniones</span></div>
+            <div class="step"><b>Propone</b><span>Plan de retención y mensaje ejecutivo</span></div>
+            <div class="step"><b>Actúa</b><span>Prepara actualización de CRM</span></div>
+            <div class="step"><b>Escala</b><span>Pide aprobación al owner</span></div>
+          </div>`
       },
-      {
-        id: "operaciones",
-        title: "Operaciones",
-        subtitle: "Desvío en SLA de proceso interno",
-        answer: "Hay un incremento de demoras en aprobaciones de compras. El agente identifica cuello de botella, resume causas frecuentes y propone reasignar aprobaciones de bajo riesgo para recuperar SLA.",
-        steps: [
-          ["Detecta", "SLA por debajo del objetivo"],
-          ["Entiende", "Agrupa causas y responsables"],
-          ["Propone", "Rebalanceo de aprobaciones"],
-          ["Actúa", "Crea tarea y resumen operativo"],
-          ["Escala", "Solicita validación del gerente"]
-        ]
+      evaluation: {
+        rail: [
+          ["Groundedness", "La respuesta se apoya en fuentes."],
+          ["Relevance", "Responde a la intención del negocio."],
+          ["Safety", "Evita acciones fuera de política."]
+        ],
+        screen: `
+          <div class="screen-top"><div class="screen-title"><strong>Evaluation · Quality gates</strong><span>Antes de llevar un agente a producción</span></div><div class="status">Pass</div></div>
+          <div class="trace">
+            <div class="trace-row"><strong>Groundedness</strong><small>94% · fuentes citadas</small><span class="badge">Pass</span></div>
+            <div class="trace-row"><strong>Business relevance</strong><small>89% · responde con próxima acción</small><span class="badge">Pass</span></div>
+            <div class="trace-row"><strong>Policy compliance</strong><small>Sin descuentos automáticos fuera de regla</small><span class="badge">Pass</span></div>
+            <div class="trace-row"><strong>Human approval</strong><small>Requerida para contacto ejecutivo</small><span class="badge">Required</span></div>
+          </div>
+          <div class="panel" style="margin-top:14px"><h3>Resultado</h3><div class="answer">El agente puede sugerir acciones y preparar comunicaciones, pero requiere aprobación humana para beneficios comerciales o escalamiento externo.</div></div>`
       },
-      {
-        id: "rrhh",
-        title: "RRHH",
-        subtitle: "Onboarding de nuevo equipo",
-        answer: "Para los ingresos de la semana, preparé checklist personalizado, mensajes de bienvenida, accesos pendientes y alertas para responsables. El flujo queda trazado y visible para RRHH y managers.",
-        steps: [
-          ["Detecta", "Nuevos ingresos confirmados"],
-          ["Entiende", "Rol, equipo y ubicación"],
-          ["Propone", "Plan de onboarding"],
-          ["Actúa", "Genera checklist y comunicaciones"],
-          ["Escala", "Marca accesos pendientes"]
-        ]
+      governance: {
+        rail: [
+          ["Roles", "Quién puede ver, aprobar o ejecutar."],
+          ["Audit", "Cada acción queda registrada."],
+          ["Controls", "Políticas de datos y límites de acción."]
+        ],
+        screen: `
+          <div class="screen-top"><div class="screen-title"><strong>Governance · Enterprise controls</strong><span>Seguridad y operación responsable</span></div><div class="status">Active</div></div>
+          <div class="panel-grid">
+            <div class="panel"><h3>Políticas activas</h3><div class="answer">El agente opera con permisos del usuario, registra fuentes consultadas, bloquea acciones sensibles y exige aprobación humana cuando el impacto supera el umbral definido.</div></div>
+            <div class="source-list">
+              <div class="source"><div><strong>Data boundary</strong><span>Solo fuentes autorizadas</span></div><span class="badge">On</span></div>
+              <div class="source"><div><strong>Audit trail</strong><span>Consulta, razonamiento y acción</span></div><span class="badge">On</span></div>
+              <div class="source"><div><strong>Approval policy</strong><span>Acciones comerciales sensibles</span></div><span class="badge">On</span></div>
+            </div>
+          </div>`
       }
-    ];
-
-    const templates = {
-      ventas: "Quiero un flujo que revise oportunidades sin avance, lea las notas de reunión, sugiera próximo paso y genere un correo de seguimiento para el cliente.",
-      ops: "Quiero un flujo que detecte desvíos de SLA en compras, agrupe causas, proponga acciones y avise al responsable si el impacto supera cierto umbral.",
-      rrhh: "Quiero un flujo para onboarding: armar checklist por rol, generar mensajes de bienvenida, detectar accesos pendientes y avisar al manager."
     };
 
-    let active = scenarios[0];
-    const scenarioList = document.getElementById("scenarioList");
-    const screenTitle = document.getElementById("screenTitle");
-    const screenSub = document.getElementById("screenSub");
-    const agentAnswer = document.getElementById("agentAnswer");
-    const agentSteps = document.getElementById("agentSteps");
-    const promptBox = document.getElementById("promptBox");
-    const prototypeOutput = document.getElementById("prototypeOutput");
+    const rail = document.getElementById("rail");
+    const screen = document.getElementById("screen");
+    const tabs = Array.from(document.querySelectorAll(".tab"));
 
-    function renderScenarios() {
-      scenarioList.innerHTML = "";
-      scenarios.forEach((scenario) => {
-        const btn = document.createElement("button");
-        btn.className = "scenario" + (scenario.id === active.id ? " active" : "");
-        btn.type = "button";
-        btn.innerHTML = `<strong>${scenario.title}</strong><span>${scenario.subtitle}</span>`;
-        btn.addEventListener("click", () => {
-          active = scenario;
-          renderScenarios();
-          renderAgent(false);
+    function render(tabName) {
+      const view = views[tabName];
+      rail.innerHTML = view.rail.map(item => `<div class="rail-card"><strong>${item[0]}</strong><span>${item[1]}</span></div>`).join("");
+      screen.innerHTML = view.screen;
+      tabs.forEach(tab => tab.classList.toggle("active", tab.dataset.tab === tabName));
+      const run = document.getElementById("runAgent");
+      if (run) {
+        run.addEventListener("click", () => {
+          const answer = document.getElementById("agentText");
+          answer.textContent = "Analizando fuentes, reglas y señales del proceso...";
+          setTimeout(() => {
+            answer.textContent = "Cuenta prioritaria con riesgo medio-alto. Próxima acción recomendada: contacto ejecutivo con resumen de valor, revisión de ticket crítico y propuesta de plan de recuperación. Se requiere aprobación del account owner antes de enviar.";
+          }, 650);
         });
-        scenarioList.appendChild(btn);
-      });
-    }
-
-    function renderAgent(animated) {
-      screenTitle.textContent = active.title;
-      screenSub.textContent = "FoundryIQ conectado · Gobierno activo";
-      agentAnswer.textContent = animated ? "Analizando señales del negocio..." : active.answer;
-      agentSteps.innerHTML = "";
-      active.steps.forEach((step, index) => {
-        const node = document.createElement("div");
-        node.className = "step";
-        node.innerHTML = `<b>${step[0]}</b><span>${step[1]}</span>`;
-        agentSteps.appendChild(node);
-        if (animated) {
-          node.style.opacity = "0.25";
-          setTimeout(() => { node.style.opacity = "1"; }, 220 * index);
-        }
-      });
-      if (animated) {
-        setTimeout(() => { agentAnswer.textContent = active.answer; }, 800);
       }
     }
 
-    function buildPrototype() {
-      const text = promptBox.value.trim() || templates.ventas;
-      prototypeOutput.innerHTML = "";
-      [
-        ["Proceso detectado", "La necesidad se interpreta como un flujo con disparador, contexto, acción y aprobación."],
-        ["Agente sugerido", "Agente de proceso conectado a FoundryIQ para consultar políticas, clientes, documentos y señales operativas."],
-        ["Controles", "Incluye trazabilidad, aprobación humana para acciones sensibles y reglas de seguridad por rol."],
-        ["Copilot / Vibe coding", "Se genera un primer prototipo de interfaz, workflow y backlog técnico para que IT lo endurezca."]
-      ].forEach((item) => {
-        const div = document.createElement("div");
-        div.className = "output";
-        div.innerHTML = `<strong>${item[0]}</strong><span>${item[1]}</span>`;
-        prototypeOutput.appendChild(div);
-      });
-      const summary = document.createElement("div");
-      summary.className = "output";
-      summary.innerHTML = `<strong>Pedido original</strong><span>${text}</span>`;
-      prototypeOutput.appendChild(summary);
-    }
-
-    document.getElementById("runAgent").addEventListener("click", () => renderAgent(true));
-    document.getElementById("buildPrototype").addEventListener("click", buildPrototype);
-    document.querySelectorAll("[data-template]").forEach((btn) => {
-      btn.addEventListener("click", () => {
-        promptBox.value = templates[btn.dataset.template];
-        buildPrototype();
-      });
-    });
-
-    renderScenarios();
-    renderAgent(false);
-    buildPrototype();
+    tabs.forEach(tab => tab.addEventListener("click", () => render(tab.dataset.tab)));
+    render("knowledge");
   </script>
 </body>
 </html>
