@@ -66,14 +66,16 @@
       --cp-sheen: rgba(255, 255, 255, 0.04);
       --cp-highlight: rgba(253, 142, 161, 0.12);
     }
-    body[data-palette="rose"] { --brand: var(--cp-accent); --brand-soft: var(--cp-accent-soft); }
-    body[data-palette="blue"] { --brand: var(--cp-link); --brand-soft: var(--cp-highlight); }
-    body[data-palette="green"] { --brand: var(--cp-success); --brand-soft: var(--cp-highlight); }
-    body[data-palette="amber"] { --brand: var(--cp-warning); --brand-soft: var(--cp-accent-soft); }
+    body[data-palette="rose"] { --brand: var(--cp-accent); --brand-soft: var(--cp-accent-soft); --wash: color-mix(in srgb, var(--cp-accent) 13%, var(--cp-bg)); }
+    body[data-palette="blue"] { --brand: var(--cp-link); --brand-soft: var(--cp-highlight); --wash: color-mix(in srgb, var(--cp-link) 15%, var(--cp-bg)); }
+    body[data-palette="green"] { --brand: var(--cp-success); --brand-soft: var(--cp-highlight); --wash: color-mix(in srgb, var(--cp-success) 16%, var(--cp-bg)); }
+    body[data-palette="amber"] { --brand: var(--cp-warning); --brand-soft: var(--cp-accent-soft); --wash: color-mix(in srgb, var(--cp-warning) 18%, var(--cp-bg)); }
     * { box-sizing: border-box; }
     body {
       margin: 0;
-      background: radial-gradient(circle at 12% 4%, var(--brand-soft), transparent 34rem), var(--cp-bg);
+      background:
+        radial-gradient(circle at 12% 4%, var(--brand-soft), transparent 30rem),
+        linear-gradient(135deg, var(--wash), var(--cp-bg) 42%, var(--cp-bg-elevated));
       color: var(--cp-text);
       font-family: "Segoe UI", Aptos, Calibri, -apple-system, BlinkMacSystemFont, sans-serif;
     }
@@ -110,7 +112,7 @@
       padding: 10px 13px;
     }
     .hero {
-      background: var(--cp-surface);
+      background: linear-gradient(135deg, var(--cp-surface), var(--wash));
       border: 1px solid var(--cp-border);
       border-radius: 24px;
       padding: 24px;
@@ -148,6 +150,19 @@
       font-size: 2rem;
       border: 1px solid var(--cp-border);
     }
+    .commerce-hero {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 16px;
+      align-items: center;
+      background: var(--brand-soft);
+      border: 1px solid var(--cp-border);
+      border-radius: 18px;
+      padding: 18px;
+      margin-bottom: 14px;
+    }
+    .commerce-hero strong { display: block; font-size: 1.25rem; letter-spacing: -0.04em; margin-bottom: 5px; }
+    .commerce-hero span { color: var(--cp-text-muted); }
     .price { color: var(--brand); font-size: 1.2rem; font-weight: 900; }
     .cart-line, .row {
       display: flex;
@@ -175,7 +190,7 @@
       padding: 16px 13px;
       box-shadow: var(--cp-shadow);
     }
-    .phone-screen { min-height: 650px; border-radius: 28px; background: var(--cp-bg-elevated); border: 1px solid var(--cp-border); padding: 15px; }
+    .phone-screen { min-height: 690px; border-radius: 28px; background: linear-gradient(180deg, var(--wash), var(--cp-bg-elevated)); border: 1px solid var(--cp-border); padding: 15px; }
     .mobile-card, .doctor, .slot {
       border: 1px solid var(--cp-border);
       background: var(--cp-surface);
@@ -188,6 +203,29 @@
     .mobile-card span, .doctor span, .slot span { color: var(--cp-text-muted); font-size: 0.86rem; }
     .specialties { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 12px 0; }
     .confirm { padding: 12px; background: var(--brand-soft); border: 1px solid var(--cp-border); border-radius: 16px; color: var(--cp-text-muted); }
+    .calendar-strip {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 7px;
+      margin: 10px 0 14px;
+    }
+    .day {
+      border: 1px solid var(--cp-border);
+      background: var(--cp-surface);
+      border-radius: 14px;
+      padding: 9px 4px;
+      text-align: center;
+      font-size: 0.82rem;
+    }
+    .day.active { border-color: var(--brand); background: var(--brand-soft); font-weight: 800; }
+    .bottom-nav {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-top: 10px;
+    }
+    .navpill { text-align: center; color: var(--cp-text-muted); font-size: 0.78rem; padding: 8px 4px; border-radius: 999px; background: var(--cp-surface); border: 1px solid var(--cp-border); }
+    .navpill.active { color: var(--cp-text); background: var(--brand-soft); border-color: var(--brand); }
     .report-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
     .kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 12px; }
     .kpi { background: var(--cp-surface-soft); border: 1px solid var(--cp-border); border-radius: 16px; padding: 13px; }
@@ -210,6 +248,21 @@
     .msg { max-width: 82%; border: 1px solid var(--cp-border); background: var(--cp-surface-soft); border-radius: 18px; padding: 12px 14px; color: var(--cp-text-muted); line-height: 1.4; }
     .msg.agent { margin-left: auto; background: var(--brand-soft); color: var(--cp-text); border-color: var(--cp-border-strong); }
     .quickbar { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+    .report-tabs {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+    .report-tab {
+      border: 1px solid var(--cp-border);
+      background: var(--cp-surface-soft);
+      color: var(--cp-text-muted);
+      border-radius: 999px;
+      padding: 8px 10px;
+      font-size: 0.88rem;
+    }
+    .report-tab.active { border-color: var(--brand); background: var(--brand-soft); color: var(--cp-text); font-weight: 800; }
     @media (max-width: 960px) {
       .web-grid, .phone-wrap, .agent-grid, .report-grid { grid-template-columns: 1fr; }
       .products, .kpis { grid-template-columns: 1fr; }
@@ -232,9 +285,14 @@
 
   <script>
     const params = new URLSearchParams(location.search);
-    const type = params.get("type") || "web";
+    let type = params.get("type") || "web";
+    const scenario = params.get("scenario") || "";
+    if (scenario === "commerce") type = "web";
+    if (scenario === "health") type = "mobile";
+    if (scenario === "report") type = "agent";
     const palette = params.get("palette") || "rose";
     document.body.dataset.palette = palette;
+    document.body.dataset.type = type;
 
     const copy = {
       web: {
@@ -267,6 +325,7 @@
     function renderCommerce() {
       return `<div class="grid web-grid">
         <div class="card">
+          <div class="commerce-hero"><div><strong>AI Storefront</strong><span>La experiencia generada incluye catálogo, recomendación, carrito y checkout. Cada acción deja un evento para CRM.</span></div><span class="badge">Live preview</span></div>
           <h2>Productos destacados</h2>
           <div class="products" id="products"></div>
         </div>
@@ -282,6 +341,7 @@
           </div>
           <button class="btn" id="checkout" type="button">Confirmar compra</button>
           <div class="checkout" id="checkoutMsg">Seleccioná productos para simular el checkout.</div>
+          <div class="checkout"><strong>Copilot insight</strong><br><span id="commerceInsight">Agregá productos y el agente sugerirá bundle, descuento o próximo paso comercial.</span></div>
           <a class="ghost" href="index.html#vibe" style="margin-top:12px;text-decoration:none;display:inline-flex">Volver</a>
         </aside>
       </div>`;
@@ -302,6 +362,14 @@
       function drawCart() {
         const total = cart.reduce((sum, item) => sum + item[2], 0);
         cartEl.innerHTML = cart.length ? cart.map(item => `<div class="cart-line"><span>${item[0]}</span><strong>USD ${item[2]}</strong></div>`).join("") + `<div class="cart-line"><strong>Total</strong><strong class="price">USD ${total}</strong></div>` : `<p class="muted">El carrito está vacío.</p>`;
+        const insight = document.getElementById("commerceInsight");
+        if (insight) {
+          insight.textContent = cart.length >= 2
+            ? "Bundle detectado: sugerir workshop de adopción + hardware para acelerar cierre consultivo."
+            : cart.length === 1
+              ? "Producto seleccionado: el agente puede recomendar complemento y medio de pago preferido."
+              : "Agregá productos y el agente sugerirá bundle, descuento o próximo paso comercial.";
+        }
       }
       productEl.innerHTML = products.map((p, i) => `<article class="product"><div class="product-art">${p[3]}</div><strong>${p[0]}</strong><span class="muted">${p[1]}</span><span class="price">USD ${p[2]}</span><button class="btn" data-add="${i}" type="button">Agregar</button></article>`).join("");
       productEl.querySelectorAll("[data-add]").forEach(btn => btn.addEventListener("click", () => { cart.push(products[Number(btn.dataset.add)]); drawCart(); }));
@@ -317,12 +385,20 @@
       return `<div class="phone-wrap">
         <div class="phone"><div class="phone-screen">
           <div class="mobile-card"><strong>Centro Médico Norte</strong><span>Turnos disponibles hoy y mañana</span></div>
+          <div class="mobile-card"><strong>Paciente</strong><span>Daniela Díaz · OSDE 310 · cobertura verificada</span></div>
           <h3>Especialidad</h3>
           <div class="specialties">
             <button class="ghost active" data-specialty="Cardiología">Cardiología</button>
             <button class="ghost" data-specialty="Pediatría">Pediatría</button>
             <button class="ghost" data-specialty="Dermatología">Dermatología</button>
             <button class="ghost" data-specialty="Clínica médica">Clínica médica</button>
+          </div>
+          <h3>Día</h3>
+          <div class="calendar-strip">
+            <button class="day active" data-day="Hoy">Hoy<br>08</button>
+            <button class="day" data-day="Mié">Mié<br>09</button>
+            <button class="day" data-day="Jue">Jue<br>10</button>
+            <button class="day" data-day="Vie">Vie<br>11</button>
           </div>
           <h3>Profesional</h3>
           <button class="doctor active" data-doctor="Dra. Valentina Luna"><strong>Dra. Valentina Luna</strong><span>Hoy · 16:30 y 18:00</span></button>
@@ -331,6 +407,7 @@
           <button class="slot active" data-slot="Hoy 16:30"><strong>Hoy 16:30</strong><span>Consultorio 4 · Prepaga verificada</span></button>
           <button class="slot" data-slot="Mañana 10:00"><strong>Mañana 10:00</strong><span>Consultorio 2 · Teleconsulta disponible</span></button>
           <button class="btn" id="book" type="button">Confirmar turno</button>
+          <div class="bottom-nav"><div class="navpill active">Turnos</div><div class="navpill">Recetas</div><div class="navpill">Estudios</div></div>
         </div></div>
         <div class="card">
           <h2>Estado de reserva</h2>
@@ -340,6 +417,7 @@
             <div class="step"><strong>UX mobile</strong><span>Flujo de reserva orientado a paciente.</span></div>
             <div class="step"><strong>Reglas</strong><span>Validación de cobertura, disponibilidad y recordatorio.</span></div>
             <div class="step"><strong>Agente</strong><span>Puede sugerir alternativas si no hay turno.</span></div>
+            <div class="step"><strong>Back office</strong><span>Actualiza agenda, prepaga y notificaciones.</span></div>
           </div>
           <a class="ghost" href="index.html#vibe" style="margin-top:12px;text-decoration:none;display:inline-flex">Volver</a>
         </div>
@@ -347,13 +425,15 @@
     }
     function mountMobile() {
       let specialty = "Cardiología";
+      let day = "Hoy";
       let doctor = "Dra. Valentina Luna";
       let slot = "Hoy 16:30";
       document.querySelectorAll("[data-specialty]").forEach(btn => btn.addEventListener("click", () => { specialty = btn.dataset.specialty; document.querySelectorAll("[data-specialty]").forEach(b => b.classList.toggle("active", b === btn)); }));
+      document.querySelectorAll("[data-day]").forEach(btn => btn.addEventListener("click", () => { day = btn.dataset.day; document.querySelectorAll("[data-day]").forEach(b => b.classList.toggle("active", b === btn)); }));
       document.querySelectorAll("[data-doctor]").forEach(btn => btn.addEventListener("click", () => { doctor = btn.dataset.doctor; document.querySelectorAll("[data-doctor]").forEach(b => b.classList.toggle("active", b === btn)); }));
       document.querySelectorAll("[data-slot]").forEach(btn => btn.addEventListener("click", () => { slot = btn.dataset.slot; document.querySelectorAll("[data-slot]").forEach(b => b.classList.toggle("active", b === btn)); }));
       document.getElementById("book").addEventListener("click", () => {
-        document.getElementById("booking").textContent = `Turno confirmado: ${specialty} con ${doctor}, ${slot}. Se envía recordatorio y se actualiza agenda del centro médico.`;
+        document.getElementById("booking").textContent = `Turno confirmado: ${specialty} con ${doctor}, ${day} · ${slot}. Se envía recordatorio, se valida cobertura y se actualiza agenda del centro médico.`;
       });
     }
 
@@ -361,6 +441,7 @@
       return `<div class="grid agent-grid">
         <div class="card">
           <h2>Power BI report</h2>
+          <div class="report-tabs"><button class="report-tab active">Margen</button><button class="report-tab">Ventas</button><button class="report-tab">Descuentos</button><button class="report-tab">Región Sur</button></div>
           <div class="kpis">
             <div class="kpi"><strong>+12%</strong><span>ventas vs mes anterior</span></div>
             <div class="kpi"><strong>-4.8</strong><span>puntos de margen</span></div>
@@ -372,23 +453,25 @@
           <h2>SharePoint context</h2>
           <div class="row"><div><strong>Minuta comité comercial</strong><span>Promociones agresivas en Región Sur</span></div><span>Fuente</span></div>
           <div class="row"><div><strong>Política de descuentos Q3</strong><span>Excepción aprobada para cuentas estratégicas</span></div><span>Fuente</span></div>
+          <div class="row"><div><strong>Plan de logística</strong><span>Incremento de costo por entregas express</span></div><span>Fuente</span></div>
         </div>
         <div class="chat">
-          <div class="chat-head"><strong>Report Intelligence Agent</strong><br><span class="badge">Power BI + SharePoint grounded</span></div>
+          <div class="chat-head"><strong>Report Intelligence Agent</strong><br><span class="badge">Power BI + SharePoint con fuentes</span></div>
           <div class="messages" id="messages">
             <div class="msg">¿Por qué cayó el margen si las ventas subieron?</div>
             <div class="msg agent">El reporte muestra +12% en ventas, pero SharePoint indica promociones agresivas en Región Sur. La hipótesis más fuerte es crecimiento impulsado por descuento, no por demanda orgánica.</div>
           </div>
-          <div class="chat-input"><button class="ghost quick" data-q="sources" type="button">Fuentes</button><button class="ghost quick" data-q="action" type="button">Acción</button><button class="ghost quick" data-q="risk" type="button">Riesgo</button></div>
+          <div class="chat-input"><button class="ghost quick" data-q="margin" type="button">Margen</button><button class="ghost quick" data-q="sources" type="button">Fuentes</button><button class="ghost quick" data-q="action" type="button">Acción</button><button class="ghost quick" data-q="risk" type="button">Riesgo</button></div>
         </div>
       </div>`;
     }
     function mountAgent() {
       const messages = document.getElementById("messages");
       const answers = {
+        margin: ["Explicame el margen.", "Power BI muestra que la caída de margen se concentra en Región Sur. Al cruzarlo con SharePoint, aparecen dos causas probables: descuentos excepcionales aprobados en Q3 y mayor costo logístico por entregas express."],
         sources: ["Mostrame las fuentes.", "Fuentes usadas: Power BI margen por región, minuta de comité comercial y política de descuentos Q3 en SharePoint."],
-        action: ["¿Qué acción recomendamos?", "Revisar promociones de Región Sur, separar ventas con descuento de ventas orgánicas y pedir aprobación antes de extender la campaña."],
-        risk: ["¿Cuál es el riesgo?", "Riesgo principal: sostener crecimiento de ventas deteriorando margen. El agente recomienda seguimiento semanal hasta normalizar margen."]
+        action: ["¿Qué acción recomendamos?", "Acción recomendada: pausar extensión de promociones en Región Sur, separar ventas con descuento de ventas orgánicas, revisar costo de logística express y presentar ajuste en comité comercial."],
+        risk: ["¿Cuál es el riesgo?", "Riesgo principal: celebrar crecimiento de ventas que en realidad está comprando volumen con margen. Si continúa, el trimestre puede cerrar con ingresos altos pero rentabilidad por debajo del objetivo."]
       };
       document.querySelectorAll("[data-q]").forEach(btn => btn.addEventListener("click", () => {
         const pair = answers[btn.dataset.q];
