@@ -66,10 +66,14 @@
       --cp-sheen: rgba(255, 255, 255, 0.04);
       --cp-highlight: rgba(253, 142, 161, 0.12);
     }
-    body[data-palette="rose"] { --brand: var(--cp-accent); --brand-soft: var(--cp-accent-soft); --wash: color-mix(in srgb, var(--cp-accent) 13%, var(--cp-bg)); }
-    body[data-palette="blue"] { --brand: var(--cp-link); --brand-soft: var(--cp-highlight); --wash: color-mix(in srgb, var(--cp-link) 15%, var(--cp-bg)); }
-    body[data-palette="green"] { --brand: var(--cp-success); --brand-soft: var(--cp-highlight); --wash: color-mix(in srgb, var(--cp-success) 16%, var(--cp-bg)); }
-    body[data-palette="amber"] { --brand: var(--cp-warning); --brand-soft: var(--cp-accent-soft); --wash: color-mix(in srgb, var(--cp-warning) 18%, var(--cp-bg)); }
+    body[data-palette="rose"] { --brand: var(--cp-accent); --brand-soft: var(--cp-accent-soft); --wash: color-mix(in srgb, var(--cp-accent) 13%, var(--cp-bg)); --mock-bg: color-mix(in srgb, var(--cp-accent) 18%, var(--cp-bg)); }
+    body[data-palette="blue"] { --brand: var(--cp-link); --brand-soft: var(--cp-highlight); --wash: color-mix(in srgb, var(--cp-link) 15%, var(--cp-bg)); --mock-bg: color-mix(in srgb, var(--cp-link) 20%, var(--cp-bg)); }
+    body[data-palette="green"] { --brand: var(--cp-success); --brand-soft: var(--cp-highlight); --wash: color-mix(in srgb, var(--cp-success) 16%, var(--cp-bg)); --mock-bg: color-mix(in srgb, var(--cp-success) 22%, var(--cp-bg)); }
+    body[data-palette="amber"] { --brand: var(--cp-warning); --brand-soft: var(--cp-accent-soft); --wash: color-mix(in srgb, var(--cp-warning) 18%, var(--cp-bg)); --mock-bg: color-mix(in srgb, var(--cp-warning) 23%, var(--cp-bg)); }
+    body[data-type="agent"] {
+      --cp-bg: var(--mock-bg);
+      --cp-bg-elevated: color-mix(in srgb, var(--brand) 12%, var(--cp-surface));
+    }
     * { box-sizing: border-box; }
     body {
       margin: 0;
@@ -227,6 +231,74 @@
     .navpill { text-align: center; color: var(--cp-text-muted); font-size: 0.78rem; padding: 8px 4px; border-radius: 999px; background: var(--cp-surface); border: 1px solid var(--cp-border); }
     .navpill.active { color: var(--cp-text); background: var(--brand-soft); border-color: var(--brand); }
     .report-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .dashboard-shell {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: 14px;
+    }
+    .report-side {
+      background: var(--cp-surface-soft);
+      border: 1px solid var(--cp-border);
+      border-radius: 18px;
+      padding: 14px;
+      display: grid;
+      gap: 10px;
+      align-content: start;
+    }
+    .side-item {
+      border: 1px solid var(--cp-border);
+      background: var(--cp-surface);
+      border-radius: 14px;
+      padding: 11px;
+    }
+    .side-item strong { display: block; color: var(--brand); margin-bottom: 3px; }
+    .viz-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .viz {
+      background: var(--cp-surface);
+      border: 1px solid var(--cp-border);
+      border-radius: 16px;
+      padding: 14px;
+    }
+    .viz h3 { margin-top: 0; }
+    .spark {
+      height: 110px;
+      display: flex;
+      align-items: end;
+      gap: 8px;
+      padding-top: 10px;
+    }
+    .spark span {
+      flex: 1;
+      min-width: 16px;
+      height: var(--h);
+      border-radius: 8px 8px 3px 3px;
+      background: var(--brand);
+      opacity: var(--o);
+    }
+    .donut {
+      width: 116px;
+      height: 116px;
+      border-radius: 50%;
+      margin: 8px auto;
+      background: conic-gradient(var(--brand) 0 62%, var(--cp-surface-soft) 62% 100%);
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--cp-border);
+    }
+    .donut strong {
+      width: 74px;
+      height: 74px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: var(--cp-surface);
+      color: var(--brand);
+      font-size: 1.3rem;
+    }
     .kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 12px; }
     .kpi { background: var(--cp-surface-soft); border: 1px solid var(--cp-border); border-radius: 16px; padding: 13px; }
     .kpi strong { display: block; color: var(--brand); font-size: 1.55rem; letter-spacing: -0.06em; }
@@ -264,7 +336,7 @@
     }
     .report-tab.active { border-color: var(--brand); background: var(--brand-soft); color: var(--cp-text); font-weight: 800; }
     @media (max-width: 960px) {
-      .web-grid, .phone-wrap, .agent-grid, .report-grid { grid-template-columns: 1fr; }
+      .web-grid, .phone-wrap, .agent-grid, .report-grid, .dashboard-shell, .viz-grid { grid-template-columns: 1fr; }
       .products, .kpis { grid-template-columns: 1fr; }
       .top { align-items: flex-start; flex-direction: column; }
     }
@@ -401,11 +473,9 @@
             <button class="day" data-day="Vie">Vie<br>11</button>
           </div>
           <h3>Profesional</h3>
-          <button class="doctor active" data-doctor="Dra. Valentina Luna"><strong>Dra. Valentina Luna</strong><span>Hoy · 16:30 y 18:00</span></button>
-          <button class="doctor" data-doctor="Dr. Mateo Rivas"><strong>Dr. Mateo Rivas</strong><span>Mañana · 10:00 y 11:30</span></button>
+          <div id="doctorList"></div>
           <h3>Horario</h3>
-          <button class="slot active" data-slot="Hoy 16:30"><strong>Hoy 16:30</strong><span>Consultorio 4 · Prepaga verificada</span></button>
-          <button class="slot" data-slot="Mañana 10:00"><strong>Mañana 10:00</strong><span>Consultorio 2 · Teleconsulta disponible</span></button>
+          <div id="slotList"></div>
           <button class="btn" id="book" type="button">Confirmar turno</button>
           <div class="bottom-nav"><div class="navpill active">Turnos</div><div class="navpill">Recetas</div><div class="navpill">Estudios</div></div>
         </div></div>
@@ -426,34 +496,89 @@
     function mountMobile() {
       let specialty = "Cardiología";
       let day = "Hoy";
-      let doctor = "Dra. Valentina Luna";
-      let slot = "Hoy 16:30";
-      document.querySelectorAll("[data-specialty]").forEach(btn => btn.addEventListener("click", () => { specialty = btn.dataset.specialty; document.querySelectorAll("[data-specialty]").forEach(b => b.classList.toggle("active", b === btn)); }));
+      const schedule = {
+        "Cardiología": [
+          ["Dra. Valentina Luna", "Cardióloga clínica · Consultorio 4", ["Hoy 16:30", "Hoy 18:00", "Mié 09:30"]],
+          ["Dr. Mateo Rivas", "Arritmias · Teleconsulta disponible", ["Mañana 10:00", "Jue 12:15"]]
+        ],
+        "Pediatría": [
+          ["Dra. Emilia Paz", "Pediatría general · Vacunas", ["Hoy 15:00", "Mié 11:00"]],
+          ["Dr. Bruno Salas", "Control niño sano", ["Jue 09:45", "Vie 14:20"]]
+        ],
+        "Dermatología": [
+          ["Dra. Clara Méndez", "Dermatología clínica", ["Mié 16:10", "Jue 10:30"]],
+          ["Dr. Mateo Rivas", "Dermatoscopía · Consultorio 2", ["Mañana 10:00", "Vie 12:40"]]
+        ],
+        "Clínica médica": [
+          ["Dr. Julián Ferro", "Control general", ["Hoy 17:20", "Mié 08:40"]],
+          ["Dra. Sofía Vidal", "Seguimiento crónicos", ["Jue 11:15", "Vie 09:10"]]
+        ]
+      };
+      let doctor = schedule[specialty][0][0];
+      let slot = schedule[specialty][0][2][0];
+      const doctorList = document.getElementById("doctorList");
+      const slotList = document.getElementById("slotList");
+      function renderDoctors() {
+        doctorList.innerHTML = schedule[specialty].map((item, index) => `<button class="doctor ${index === 0 ? "active" : ""}" data-doctor="${item[0]}" type="button"><strong>${item[0]}</strong><span>${item[1]}</span></button>`).join("");
+        doctor = schedule[specialty][0][0];
+        renderSlots();
+        doctorList.querySelectorAll("[data-doctor]").forEach(btn => btn.addEventListener("click", () => {
+          doctor = btn.dataset.doctor;
+          doctorList.querySelectorAll("[data-doctor]").forEach(b => b.classList.toggle("active", b === btn));
+          renderSlots();
+        }));
+      }
+      function renderSlots() {
+        const selected = schedule[specialty].find(item => item[0] === doctor) || schedule[specialty][0];
+        slot = selected[2][0];
+        slotList.innerHTML = selected[2].map((time, index) => `<button class="slot ${index === 0 ? "active" : ""}" data-slot="${time}" type="button"><strong>${time}</strong><span>${index === 0 ? "Primer disponible" : "Alternativa"} · Cobertura verificada</span></button>`).join("");
+        slotList.querySelectorAll("[data-slot]").forEach(btn => btn.addEventListener("click", () => {
+          slot = btn.dataset.slot;
+          slotList.querySelectorAll("[data-slot]").forEach(b => b.classList.toggle("active", b === btn));
+        }));
+      }
+      document.querySelectorAll("[data-specialty]").forEach(btn => btn.addEventListener("click", () => {
+        specialty = btn.dataset.specialty;
+        document.querySelectorAll("[data-specialty]").forEach(b => b.classList.toggle("active", b === btn));
+        renderDoctors();
+      }));
       document.querySelectorAll("[data-day]").forEach(btn => btn.addEventListener("click", () => { day = btn.dataset.day; document.querySelectorAll("[data-day]").forEach(b => b.classList.toggle("active", b === btn)); }));
-      document.querySelectorAll("[data-doctor]").forEach(btn => btn.addEventListener("click", () => { doctor = btn.dataset.doctor; document.querySelectorAll("[data-doctor]").forEach(b => b.classList.toggle("active", b === btn)); }));
-      document.querySelectorAll("[data-slot]").forEach(btn => btn.addEventListener("click", () => { slot = btn.dataset.slot; document.querySelectorAll("[data-slot]").forEach(b => b.classList.toggle("active", b === btn)); }));
       document.getElementById("book").addEventListener("click", () => {
         document.getElementById("booking").textContent = `Turno confirmado: ${specialty} con ${doctor}, ${day} · ${slot}. Se envía recordatorio, se valida cobertura y se actualiza agenda del centro médico.`;
       });
+      renderDoctors();
     }
 
     function renderAgent() {
       return `<div class="grid agent-grid">
         <div class="card">
-          <h2>Power BI report</h2>
-          <div class="report-tabs"><button class="report-tab active">Margen</button><button class="report-tab">Ventas</button><button class="report-tab">Descuentos</button><button class="report-tab">Región Sur</button></div>
-          <div class="kpis">
-            <div class="kpi"><strong>+12%</strong><span>ventas vs mes anterior</span></div>
-            <div class="kpi"><strong>-4.8</strong><span>puntos de margen</span></div>
-            <div class="kpi"><strong>Sur</strong><span>región bajo presión</span></div>
+          <div class="dashboard-shell">
+            <aside class="report-side">
+              <span class="badge">Power BI report</span>
+              <div class="side-item"><strong>Dataset</strong><span>Ventas corporativas · Q3</span></div>
+              <div class="side-item"><strong>Filtro</strong><span>Argentina · Región Sur</span></div>
+              <div class="side-item"><strong>Actualizado</strong><span>hace 12 minutos</span></div>
+              <span class="badge">SharePoint</span>
+              <div class="side-item"><strong>Minuta comercial</strong><span>Promociones agresivas</span></div>
+              <div class="side-item"><strong>Política Q3</strong><span>Descuentos excepcionales</span></div>
+            </aside>
+            <section>
+              <h2>Sales & Margin Command Center</h2>
+              <div class="report-tabs"><button class="report-tab active">Margen</button><button class="report-tab">Ventas</button><button class="report-tab">Descuentos</button><button class="report-tab">Región Sur</button></div>
+              <div class="kpis">
+                <div class="kpi"><strong>+12%</strong><span>ventas vs mes anterior</span></div>
+                <div class="kpi"><strong>-4.8</strong><span>puntos de margen</span></div>
+                <div class="kpi"><strong>37%</strong><span>ventas con descuento</span></div>
+              </div>
+              <div class="viz-grid">
+                <div class="viz"><h3>Ventas por semana</h3><div class="spark"><span style="--h:42%;--o:.45"></span><span style="--h:58%;--o:.55"></span><span style="--h:64%;--o:.65"></span><span style="--h:80%;--o:.8"></span><span style="--h:92%;--o:1"></span></div></div>
+                <div class="viz"><h3>Margen saludable</h3><div class="donut"><strong>62%</strong></div></div>
+              </div>
+              <div class="row"><div><strong>Región Norte</strong><span>Ventas y margen saludables</span><div class="bar"><span style="--v:82%"></span></div></div><strong>82</strong></div>
+              <div class="row"><div><strong>Región Centro</strong><span>Crecimiento moderado</span><div class="bar"><span style="--v:64%"></span></div></div><strong>64</strong></div>
+              <div class="row"><div><strong>Región Sur</strong><span>Ventas altas con margen bajo</span><div class="bar"><span style="--v:43%"></span></div></div><strong>43</strong></div>
+            </section>
           </div>
-          <div class="row"><div><strong>Región Norte</strong><span>Ventas y margen saludables</span><div class="bar"><span style="--v:82%"></span></div></div><strong>82</strong></div>
-          <div class="row"><div><strong>Región Centro</strong><span>Crecimiento moderado</span><div class="bar"><span style="--v:64%"></span></div></div><strong>64</strong></div>
-          <div class="row"><div><strong>Región Sur</strong><span>Ventas altas con margen bajo</span><div class="bar"><span style="--v:43%"></span></div></div><strong>43</strong></div>
-          <h2>SharePoint context</h2>
-          <div class="row"><div><strong>Minuta comité comercial</strong><span>Promociones agresivas en Región Sur</span></div><span>Fuente</span></div>
-          <div class="row"><div><strong>Política de descuentos Q3</strong><span>Excepción aprobada para cuentas estratégicas</span></div><span>Fuente</span></div>
-          <div class="row"><div><strong>Plan de logística</strong><span>Incremento de costo por entregas express</span></div><span>Fuente</span></div>
         </div>
         <div class="chat">
           <div class="chat-head"><strong>Report Intelligence Agent</strong><br><span class="badge">Power BI + SharePoint con fuentes</span></div>
