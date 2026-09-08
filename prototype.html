@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Generated Business App | FoundryIQ</title>
+  <title>Generated Experience | FoundryIQ</title>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23b11f4b'/%3E%3Ctext x='16' y='22' text-anchor='middle' font-family='Arial' font-size='18' font-weight='700' fill='white'%3EA%3C/text%3E%3C/svg%3E">
   <script>
     (() => {
@@ -66,28 +66,47 @@
       --cp-sheen: rgba(255, 255, 255, 0.04);
       --cp-highlight: rgba(253, 142, 161, 0.12);
     }
+    body[data-palette="rose"] { --brand: var(--cp-accent); --brand-soft: var(--cp-accent-soft); }
+    body[data-palette="blue"] { --brand: var(--cp-link); --brand-soft: var(--cp-highlight); }
+    body[data-palette="green"] { --brand: var(--cp-success); --brand-soft: var(--cp-highlight); }
+    body[data-palette="amber"] { --brand: var(--cp-warning); --brand-soft: var(--cp-accent-soft); }
     * { box-sizing: border-box; }
     body {
       margin: 0;
-      background: var(--cp-bg);
+      background:
+        radial-gradient(circle at 16% 4%, var(--brand-soft), transparent 32rem),
+        radial-gradient(circle at 92% 8%, var(--cp-highlight), transparent 30rem),
+        var(--cp-bg);
       color: var(--cp-text);
       font-family: "Segoe UI", Aptos, Calibri, -apple-system, BlinkMacSystemFont, sans-serif;
     }
-    .app { width: min(1180px, calc(100% - 32px)); margin: 0 auto; padding: 28px 0; }
+    button { font: inherit; cursor: pointer; }
+    .app { width: min(1180px, calc(100% - 32px)); margin: 0 auto; padding: 24px 0 40px; }
     .top {
       display: flex; justify-content: space-between; align-items: center; gap: 16px;
-      margin-bottom: 22px;
+      margin-bottom: 18px;
     }
     .brand strong { display: block; font-size: 1.25rem; letter-spacing: -0.04em; }
     .brand span { color: var(--cp-text-muted); }
-    .badge {
+    .badge, .chip {
+      display: inline-flex;
       border: 1px solid var(--cp-border);
-      background: var(--cp-accent-soft);
+      background: var(--brand-soft);
       color: var(--cp-text);
-      padding: 8px 12px;
+      padding: 7px 10px;
       border-radius: 999px;
-      font-weight: 700;
-      font-size: 0.9rem;
+      font-weight: 800;
+      font-size: 0.82rem;
+    }
+    .btn {
+      border: 1px solid var(--brand);
+      background: var(--brand);
+      color: var(--cp-accent-fg);
+      border-radius: 0.625rem;
+      padding: 10px 13px;
+      text-decoration: none;
+      display: inline-flex;
+      font-weight: 800;
     }
     .hero {
       background: var(--cp-surface);
@@ -95,11 +114,13 @@
       border-radius: 24px;
       padding: 24px;
       box-shadow: var(--cp-shadow);
-      margin-bottom: 18px;
+      margin-bottom: 16px;
     }
-    h1 { margin: 0 0 10px; font-size: clamp(2rem, 4vw, 3.6rem); line-height: 1; letter-spacing: -0.075em; }
-    .lead { margin: 0; max-width: 76ch; color: var(--cp-text-muted); line-height: 1.55; font-size: 1.06rem; }
-    .grid { display: grid; grid-template-columns: 1fr 1fr 0.85fr; gap: 16px; }
+    h1 { margin: 0 0 10px; font-size: clamp(2rem, 4.5vw, 3.7rem); line-height: 0.98; letter-spacing: -0.075em; }
+    .lead { margin: 0; color: var(--cp-text-muted); line-height: 1.55; max-width: 78ch; font-size: 1.05rem; }
+    .web-layout { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 16px; }
+    .mobile-layout { display: grid; grid-template-columns: 0.75fr 1.25fr; gap: 18px; align-items: start; }
+    .agent-layout { display: grid; grid-template-columns: 0.95fr 1.05fr; gap: 16px; }
     .card {
       background: var(--cp-surface);
       border: 1px solid var(--cp-border);
@@ -107,17 +128,29 @@
       padding: 18px;
       box-shadow: 0 0 2px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.14);
     }
-    .card h2 { margin: 0 0 12px; font-size: 1.15rem; letter-spacing: -0.035em; }
-    .item {
-      display: flex;
-      justify-content: space-between;
-      gap: 12px;
-      padding: 12px 0;
-      border-bottom: 1px solid var(--cp-border);
+    .card h2, .card h3 { margin: 0 0 12px; letter-spacing: -0.04em; }
+    .kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 14px; }
+    .kpi {
+      background: var(--cp-surface-soft);
+      border: 1px solid var(--cp-border);
+      border-radius: 16px;
+      padding: 14px;
     }
-    .item:last-child { border-bottom: 0; }
-    .item span { color: var(--cp-text-muted); font-size: 0.9rem; }
-    .score { color: var(--cp-accent); font-weight: 900; }
+    .kpi strong { display: block; color: var(--brand); font-size: 1.7rem; letter-spacing: -0.06em; }
+    .kpi span { color: var(--cp-text-muted); font-size: 0.86rem; }
+    .table { display: grid; gap: 8px; }
+    .row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      align-items: center;
+      border: 1px solid var(--cp-border);
+      background: var(--cp-surface-soft);
+      border-radius: 14px;
+      padding: 12px;
+    }
+    .row span { color: var(--cp-text-muted); font-size: 0.88rem; display: block; margin-top: 3px; }
+    .score { color: var(--brand); font-weight: 900; }
     .flow { display: grid; gap: 10px; }
     .step {
       border: 1px solid var(--cp-border);
@@ -125,79 +158,207 @@
       border-radius: 14px;
       padding: 12px;
     }
-    .step strong { color: var(--cp-accent); display: block; margin-bottom: 4px; }
-    .step span { color: var(--cp-text-muted); font-size: 0.9rem; }
-    .action {
-      display: inline-flex;
-      border: 1px solid var(--cp-accent);
-      background: var(--cp-accent);
-      color: var(--cp-accent-fg);
-      border-radius: 0.625rem;
-      padding: 10px 13px;
-      margin-top: 14px;
-      text-decoration: none;
-      font-weight: 700;
+    .step strong { color: var(--brand); display: block; margin-bottom: 4px; }
+    .step span { color: var(--cp-text-muted); font-size: 0.9rem; line-height: 1.35; }
+    .phone {
+      width: 320px;
+      max-width: 100%;
+      margin: 0 auto;
+      border: 1px solid var(--cp-border-strong);
+      border-radius: 38px;
+      background: var(--cp-surface);
+      padding: 18px 14px;
+      box-shadow: var(--cp-shadow);
     }
-    .footer-note { color: var(--cp-text-muted); margin-top: 18px; font-size: 0.9rem; }
-    @media (max-width: 900px) { .grid { grid-template-columns: 1fr; } .top { align-items: flex-start; flex-direction: column; } }
+    .phone-screen {
+      min-height: 610px;
+      border-radius: 28px;
+      background: var(--cp-bg-elevated);
+      border: 1px solid var(--cp-border);
+      padding: 16px;
+      overflow: hidden;
+    }
+    .mobile-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+    .mobile-card {
+      background: var(--cp-surface);
+      border: 1px solid var(--cp-border);
+      border-radius: 18px;
+      padding: 14px;
+      margin-bottom: 12px;
+    }
+    .progress {
+      height: 8px;
+      border-radius: 999px;
+      background: var(--cp-surface-soft);
+      overflow: hidden;
+      margin-top: 9px;
+    }
+    .progress span { display: block; height: 100%; width: var(--value); background: var(--brand); }
+    .chat {
+      min-height: 560px;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      background: var(--cp-surface);
+      border: 1px solid var(--cp-border);
+      border-radius: 24px;
+      box-shadow: var(--cp-shadow);
+      overflow: hidden;
+    }
+    .chat-head, .chat-input {
+      padding: 16px;
+      background: var(--cp-surface-soft);
+      border-bottom: 1px solid var(--cp-border);
+    }
+    .chat-input { border-bottom: 0; border-top: 1px solid var(--cp-border); display: flex; gap: 10px; }
+    .messages { padding: 18px; display: grid; gap: 12px; align-content: start; }
+    .msg {
+      max-width: 78%;
+      border: 1px solid var(--cp-border);
+      background: var(--cp-surface-soft);
+      border-radius: 18px;
+      padding: 12px 14px;
+      color: var(--cp-text-muted);
+      line-height: 1.4;
+    }
+    .msg.agent {
+      margin-left: auto;
+      background: var(--brand-soft);
+      color: var(--cp-text);
+      border-color: var(--cp-border-strong);
+    }
+    .input-fake {
+      flex: 1;
+      color: var(--cp-text-muted);
+      border: 1px solid var(--cp-border);
+      background: var(--cp-surface);
+      border-radius: 999px;
+      padding: 10px 12px;
+    }
+    .hidden { display: none !important; }
+    @media (max-width: 920px) {
+      .web-layout, .mobile-layout, .agent-layout { grid-template-columns: 1fr; }
+      .kpis { grid-template-columns: 1fr; }
+      .top { align-items: flex-start; flex-direction: column; }
+    }
   </style>
 </head>
 <body>
   <main class="app">
     <div class="top">
-      <div class="brand"><strong id="appName">Generated Business App</strong><span>Created from business intent with Copilot + FoundryIQ patterns</span></div>
-      <span class="badge">Prototype ready</span>
+      <div class="brand"><strong id="appName">Generated Experience</strong><span id="subline">Built from business intent with FoundryIQ + GitHub Copilot</span></div>
+      <div><span class="badge" id="badge">Prototype ready</span></div>
     </div>
     <section class="hero">
       <h1 id="title"></h1>
       <p class="lead" id="lead"></p>
     </section>
-    <section class="grid">
-      <article class="card"><h2 id="signalTitle"></h2><div id="signals"></div></article>
-      <article class="card"><h2>Agent recommendation</h2><div id="recommendation"></div></article>
-      <article class="card"><h2>Process flow</h2><div class="flow" id="flow"></div><a class="action" href="index.html#vibe">Volver a la demo</a></article>
-    </section>
-    <div class="footer-note">Este prototipo ilustra cómo una necesidad de negocio puede convertirse en una experiencia de trabajo accionable.</div>
+    <section id="render"></section>
   </main>
+
   <script>
-    const APPS = {
+    const DATA = {
       retention: {
-        name: "Customer Retention Desk",
-        title: "Priorizar cuentas con riesgo antes de que sea tarde.",
-        lead: "La app combina señales de soporte, actividad comercial y compromisos abiertos para sugerir una próxima acción con contexto.",
-        signalTitle: "Accounts at risk",
-        signals: [["Northwind Bank", "Riesgo 82"], ["Fabrikam Retail", "Riesgo 76"], ["Contoso Health", "Riesgo 68"]],
-        recommendation: ["Contactar sponsor ejecutivo", "Preparar resumen de valor", "Revisar ticket crítico abierto"],
-        flow: [["Detecta", "Baja interacción + ticket crítico"], ["Razona", "Cruza contrato, reuniones y soporte"], ["Propone", "Plan de retención"], ["Escala", "Aprobación del account owner"]]
+        app: "Customer Retention",
+        web: "Customer Retention Portal",
+        mobile: "VIP Account Mobile",
+        agent: "Retention Advisor",
+        title: "Anticipar riesgo comercial antes de que sea tarde.",
+        lead: "La experiencia combina señales de soporte, actividad comercial y compromisos abiertos para recomendar próximas acciones con contexto.",
+        rows: [["Northwind Bank", "Sponsor sin contacto 18 días", "82"], ["Fabrikam Retail", "Ticket crítico + renovación cercana", "76"], ["Contoso Health", "Baja adopción en unidad clave", "68"]],
+        actions: ["Preparar contacto ejecutivo", "Revisar ticket crítico", "Armar plan de recuperación", "Escalar al account owner"],
+        chat: ["¿Qué cuentas requieren atención hoy?", "Encontré 3 prioridades. Northwind Bank combina ticket crítico, renovación cercana y baja interacción ejecutiva.", "¿Qué debería hacer primero?", "Preparar contacto ejecutivo con resumen de valor y solicitar aprobación antes de ofrecer beneficio comercial."]
       },
       sla: {
-        name: "SLA Recovery Console",
+        app: "SLA Recovery",
+        web: "SLA Recovery Console",
+        mobile: "Operations Pulse App",
+        agent: "SLA Recovery Agent",
         title: "Recuperar SLA operativo con acciones concretas.",
-        lead: "La app identifica cuellos de botella, agrupa causas y sugiere acciones para volver al objetivo de servicio.",
-        signalTitle: "Queues under pressure",
-        signals: [["Compras indirectas", "SLA 71%"], ["Alta proveedores", "SLA 78%"], ["Validación legal", "SLA 83%"]],
-        recommendation: ["Reasignar cola crítica", "Pausar casos de bajo impacto", "Notificar responsable operativo"],
-        flow: [["Detecta", "SLA bajo umbral"], ["Agrupa", "Causas y responsables"], ["Propone", "Rebalanceo de trabajo"], ["Escala", "Gerente si impacto es alto"]]
+        lead: "La experiencia identifica cuellos de botella, agrupa causas y sugiere acciones para volver al objetivo de servicio.",
+        rows: [["Compras indirectas", "Cola saturada por aprobaciones", "71"], ["Alta proveedores", "Documentación incompleta", "78"], ["Validación legal", "Demora por asignación", "83"]],
+        actions: ["Reasignar cola crítica", "Pausar bajo impacto", "Avisar al gerente operativo", "Generar resumen de causas"],
+        chat: ["¿Dónde se está rompiendo el SLA?", "La mayor presión está en compras indirectas: 71% de cumplimiento, con aprobaciones concentradas en dos responsables.", "¿Qué acción recomiendas?", "Reasignar casos críticos, pausar solicitudes de bajo impacto y escalar si el SLA no recupera en 24 horas."]
       },
       invoice: {
-        name: "Invoice Exception Hub",
+        app: "Invoice Exceptions",
+        web: "Invoice Exception Hub",
+        mobile: "Approvals Mobile Desk",
+        agent: "Invoice Resolution Agent",
         title: "Resolver excepciones de facturas con trazabilidad.",
-        lead: "La app clasifica diferencias, recomienda resolución y deja evidencia para auditoría y aprobación.",
-        signalTitle: "Exceptions detected",
-        signals: [["Proveedor A-104", "Diferencia 8.4%"], ["Orden PO-8821", "Sin remito"], ["Factura 7742", "Precio fuera de contrato"]],
-        recommendation: ["Solicitar evidencia", "Bloquear pago preventivo", "Enviar resumen a Finanzas"],
-        flow: [["Detecta", "Excepción sobre umbral"], ["Valida", "Contrato, orden y remito"], ["Propone", "Resolver o escalar"], ["Registra", "Evidencia y decisión"]]
+        lead: "La experiencia clasifica diferencias, recomienda resolución y deja evidencia para auditoría y aprobación.",
+        rows: [["Proveedor A-104", "Diferencia 8.4% vs contrato", "High"], ["Orden PO-8821", "Sin remito asociado", "Medium"], ["Factura 7742", "Precio fuera de política", "High"]],
+        actions: ["Solicitar evidencia", "Bloquear pago preventivo", "Enviar resumen a Finanzas", "Registrar decisión"],
+        chat: ["¿Qué facturas no deberían aprobarse automáticamente?", "Detecté dos casos high: Proveedor A-104 por diferencia sobre contrato y Factura 7742 por precio fuera de política.", "¿Puedo aprobar alguna?", "Solo la excepción media si se adjunta remito. Las high requieren revisión de Finanzas."]
+      },
+      onboarding: {
+        app: "Onboarding",
+        web: "Onboarding Command Center",
+        mobile: "New Hire Companion",
+        agent: "Onboarding Concierge",
+        title: "Coordinar onboarding sin perseguir tareas manualmente.",
+        lead: "La experiencia arma checklist por rol, detecta accesos pendientes y prepara comunicaciones para managers y nuevos ingresos.",
+        rows: [["Ana Torres", "Accesos pendientes", "2"], ["Equipo Ventas Sur", "Checklist 86% completo", "86"], ["Mesa IT", "3 tickets por vencer", "3"]],
+        actions: ["Crear checklist por rol", "Enviar bienvenida", "Escalar accesos vencidos", "Actualizar progreso"],
+        chat: ["¿Quién necesita atención antes del ingreso?", "Ana Torres tiene dos accesos pendientes y el ticket de equipo vence mañana.", "¿Qué hacemos?", "Preparar mensaje al manager, crear tarea para IT y actualizar el checklist de onboarding."]
       }
     };
-    const scenario = new URLSearchParams(location.search).get("scenario") || "retention";
-    const app = APPS[scenario] || APPS.retention;
-    document.getElementById("appName").textContent = app.name;
-    document.getElementById("title").textContent = app.title;
-    document.getElementById("lead").textContent = app.lead;
-    document.getElementById("signalTitle").textContent = app.signalTitle;
-    document.getElementById("signals").innerHTML = app.signals.map(([a,b]) => `<div class="item"><strong>${a}</strong><span class="score">${b}</span></div>`).join("");
-    document.getElementById("recommendation").innerHTML = app.recommendation.map(x => `<div class="item"><strong>${x}</strong><span>Suggested</span></div>`).join("");
-    document.getElementById("flow").innerHTML = app.flow.map(([a,b]) => `<div class="step"><strong>${a}</strong><span>${b}</span></div>`).join("");
+    const params = new URLSearchParams(location.search);
+    const type = params.get("type") || "web";
+    const scenario = params.get("scenario") || "retention";
+    const palette = params.get("palette") || "rose";
+    document.body.dataset.palette = palette;
+    const data = DATA[scenario] || DATA.retention;
+    const name = data[type] || data.web;
+    document.title = `${name} | FoundryIQ`;
+    document.getElementById("appName").textContent = name;
+    document.getElementById("badge").textContent = type === "web" ? "Web generated" : type === "mobile" ? "Mobile generated" : "Agent generated";
+    document.getElementById("title").textContent = data.title;
+    document.getElementById("lead").textContent = data.lead;
+
+    function kpis() {
+      return `<div class="kpis">
+        <div class="kpi"><strong>${data.rows.length}</strong><span>prioridades detectadas</span></div>
+        <div class="kpi"><strong>${data.actions.length}</strong><span>acciones sugeridas</span></div>
+        <div class="kpi"><strong>1</strong><span>aprobación crítica</span></div>
+      </div>`;
+    }
+    function rows() {
+      return `<div class="table">${data.rows.map(row => `<div class="row"><div><strong>${row[0]}</strong><span>${row[1]}</span></div><div class="score">${row[2]}</div></div>`).join("")}</div>`;
+    }
+    function flow() {
+      return `<div class="flow">${data.actions.map((action, i) => `<div class="step"><strong>${i + 1}. ${action}</strong><span>Condición evaluada con contexto corporativo y política de aprobación.</span></div>`).join("")}</div>`;
+    }
+    function renderWeb() {
+      return `<div class="web-layout">
+        <div class="card"><h2>${data.web}</h2>${kpis()}${rows()}</div>
+        <div class="card"><h2>Recommended actions</h2>${flow()}<a class="btn" href="index.html#vibe">Volver</a></div>
+      </div>`;
+    }
+    function renderMobile() {
+      return `<div class="mobile-layout">
+        <div class="phone"><div class="phone-screen">
+          <div class="mobile-top"><strong>${data.mobile}</strong><span class="chip">Live</span></div>
+          ${data.rows.map((row, i) => `<div class="mobile-card"><strong>${row[0]}</strong><p>${row[1]}</p><div class="progress"><span style="--value:${i === 0 ? "88%" : i === 1 ? "64%" : "46%"}"></span></div></div>`).join("")}
+        </div></div>
+        <div class="card"><h2>Mobile workflow</h2><p class="lead">Diseñada para responsables que necesitan aprobar, reasignar o escalar desde el celular.</p>${flow()}<a class="btn" href="index.html#vibe">Volver</a></div>
+      </div>`;
+    }
+    function renderAgent() {
+      return `<div class="agent-layout">
+        <div class="chat">
+          <div class="chat-head"><strong>${data.agent}</strong><br><span class="chip">Grounded with FoundryIQ</span></div>
+          <div class="messages">
+            <div class="msg">${data.chat[0]}</div>
+            <div class="msg agent">${data.chat[1]}</div>
+            <div class="msg">${data.chat[2]}</div>
+            <div class="msg agent">${data.chat[3]}</div>
+          </div>
+          <div class="chat-input"><div class="input-fake">Preguntar por próximos pasos...</div><button class="btn" type="button">Enviar</button></div>
+        </div>
+        <div class="card"><h2>Agent controls</h2>${rows()}<h3>Actions available</h3>${flow()}<a class="btn" href="index.html#vibe">Volver</a></div>
+      </div>`;
+    }
+    document.getElementById("render").innerHTML = type === "mobile" ? renderMobile() : type === "agent" ? renderAgent() : renderWeb();
   </script>
 </body>
 </html>

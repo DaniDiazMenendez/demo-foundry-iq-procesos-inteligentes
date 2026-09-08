@@ -336,6 +336,7 @@
       padding: 11px 12px;
     }
     .source span { color: var(--cp-text-muted); font-size: 0.86rem; }
+    .source strong { display: block; margin-bottom: 3px; }
     .badge {
       display: inline-flex;
       border: 1px solid var(--cp-border);
@@ -361,6 +362,157 @@
     .trace-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
     .trace-row small { color: var(--cp-text-muted); }
     .builder-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .configurator {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 16px;
+      background: var(--cp-surface);
+      border: 1px solid var(--cp-border);
+      border-radius: 24px;
+      padding: 16px;
+      box-shadow: var(--cp-shadow);
+    }
+    .control-panel {
+      display: grid;
+      gap: 14px;
+      align-content: start;
+    }
+    .field {
+      display: grid;
+      gap: 7px;
+    }
+    .field label {
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+    .field select {
+      width: 100%;
+      border: 1px solid var(--cp-border);
+      background: var(--cp-bg-elevated);
+      color: var(--cp-text);
+      border-radius: 0.625rem;
+      padding: 11px 12px;
+    }
+    .idea-grid {
+      display: grid;
+      gap: 10px;
+      margin-top: 4px;
+    }
+    .idea {
+      text-align: left;
+      border: 1px solid var(--cp-border);
+      background: var(--cp-surface-soft);
+      color: var(--cp-text);
+      border-radius: 16px;
+      padding: 13px;
+    }
+    .idea.active {
+      border-color: var(--cp-accent);
+      background: var(--cp-accent-soft);
+    }
+    .idea strong { display: block; margin-bottom: 4px; }
+    .idea span { display: block; color: var(--cp-text-muted); font-size: 0.88rem; line-height: 1.35; }
+    .preview-card {
+      background: var(--cp-bg-elevated);
+      border: 1px solid var(--cp-border);
+      border-radius: 20px;
+      padding: 16px;
+      min-height: 470px;
+      display: grid;
+      gap: 14px;
+      align-content: start;
+    }
+    .preview-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .preview-title strong { display: block; font-size: 1.05rem; }
+    .preview-title span { color: var(--cp-text-muted); font-size: 0.9rem; }
+    .preview-window {
+      border: 1px solid var(--cp-border);
+      background: var(--cp-surface);
+      border-radius: 18px;
+      min-height: 310px;
+      padding: 14px;
+      overflow: hidden;
+    }
+    .mock-toolbar {
+      display: flex;
+      gap: 6px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--cp-border);
+      margin-bottom: 14px;
+    }
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--cp-border-strong);
+    }
+    .mock-hero {
+      background: var(--cp-accent-soft);
+      border: 1px solid var(--cp-border);
+      border-radius: 16px;
+      padding: 16px;
+      margin-bottom: 12px;
+    }
+    .mock-hero h4 { margin: 0 0 6px; font-size: 1.05rem; letter-spacing: -0.03em; }
+    .mock-hero p { margin: 0; color: var(--cp-text-muted); font-size: 0.9rem; line-height: 1.35; }
+    .mock-columns {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+    .mock-box {
+      border: 1px solid var(--cp-border);
+      border-radius: 14px;
+      padding: 12px;
+      min-height: 82px;
+      background: var(--cp-surface-soft);
+    }
+    .mock-box b { display: block; color: var(--cp-accent); margin-bottom: 5px; }
+    .mock-box small { color: var(--cp-text-muted); line-height: 1.3; display: block; }
+    .mobile-sketch {
+      width: 210px;
+      margin: 0 auto;
+      border: 1px solid var(--cp-border-strong);
+      border-radius: 28px;
+      padding: 16px 12px;
+      background: var(--cp-surface);
+      box-shadow: 0 0 2px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.14);
+    }
+    .mobile-line {
+      height: 42px;
+      border: 1px solid var(--cp-border);
+      border-radius: 14px;
+      background: var(--cp-surface-soft);
+      margin: 10px 0;
+      padding: 10px;
+      color: var(--cp-text-muted);
+      font-size: 0.82rem;
+    }
+    .chat-sketch {
+      display: grid;
+      gap: 10px;
+    }
+    .bubble {
+      max-width: 82%;
+      border: 1px solid var(--cp-border);
+      border-radius: 16px;
+      padding: 11px 12px;
+      background: var(--cp-surface-soft);
+      color: var(--cp-text-muted);
+      line-height: 1.35;
+      font-size: 0.9rem;
+    }
+    .bubble.agent {
+      margin-left: auto;
+      background: var(--cp-accent-soft);
+      color: var(--cp-text);
+      border-color: var(--cp-border-strong);
+    }
     .prototype {
       display: flex;
       min-height: 260px;
@@ -404,7 +556,7 @@
     .metric span { color: var(--cp-text-muted); font-size: 0.92rem; }
     .hidden { display: none !important; }
     @media (max-width: 980px) {
-      .hero, .workspace, .panel-grid { grid-template-columns: 1fr; }
+      .hero, .workspace, .panel-grid, .configurator { grid-template-columns: 1fr; }
       .builder-grid, .metrics { grid-template-columns: 1fr 1fr; }
       .steps { grid-template-columns: 1fr; }
     }
@@ -460,9 +612,11 @@
 
       <div class="tabs" role="tablist" aria-label="Vistas de Foundry Studio">
         <button class="tab active" data-tab="knowledge" type="button">Knowledge</button>
+        <button class="tab" data-tab="models" type="button">Models & tools</button>
         <button class="tab" data-tab="agent" type="button">Agent runtime</button>
         <button class="tab" data-tab="evaluation" type="button">Evaluation</button>
         <button class="tab" data-tab="governance" type="button">Governance</button>
+        <button class="tab" data-tab="monitoring" type="button">Monitoring</button>
       </div>
 
       <div class="workspace">
@@ -473,50 +627,56 @@
 
     <section id="vibe" class="shell">
       <div class="section-head">
-        <h2>Vibe coding: de una idea a una mini app</h2>
-        <p>Elegí una necesidad de negocio. Cada opción abre otra pestaña con una web generada para ese escenario, con condiciones y comportamiento propios.</p>
+        <h2>Vibe coding: configurá y generá una experiencia</h2>
+        <p>Elegí qué querés construir, para qué proceso y con qué estilo. La demo abre otra pestaña con una experiencia distinta: web, app mobile o agente conversacional.</p>
       </div>
 
-      <div class="builder-grid">
-        <article class="prototype">
+      <div class="configurator">
+        <div class="control-panel">
+          <div class="field">
+            <label for="outputType">Formato a generar</label>
+            <select id="outputType">
+              <option value="web">Web ejecutiva</option>
+              <option value="mobile">Aplicación mobile</option>
+              <option value="agent">Agente conversacional</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="businessTheme">Tema del proceso</label>
+            <select id="businessTheme">
+              <option value="retention">Retención de clientes</option>
+              <option value="sla">Recuperación de SLA operativo</option>
+              <option value="invoice">Excepciones de facturación</option>
+              <option value="onboarding">Onboarding de empleados</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="visualStyle">Variable visual</label>
+            <select id="visualStyle">
+              <option value="rose">Executive rose</option>
+              <option value="blue">Corporate blue</option>
+              <option value="green">Operations green</option>
+              <option value="amber">Decision amber</option>
+            </select>
+          </div>
           <div>
-            <span class="pill">Ventas y retención</span>
-            <h3>Customer Retention Desk</h3>
-            <p>Mini app para priorizar cuentas con riesgo, sugerir acciones y preparar seguimiento ejecutivo.</p>
-            <div class="checks">
-              <div class="check">Condición: riesgo mayor a 72</div>
-              <div class="check">Acción: generar plan de retención</div>
-              <div class="check">Escala: account owner si hay churn probable</div>
+            <label>Ideas preconfiguradas</label>
+            <div class="idea-grid">
+              <button class="idea active" data-preset="retention-web" type="button"><strong>Portal de retención</strong><span>Web para priorizar cuentas y preparar acciones.</span></button>
+              <button class="idea" data-preset="sla-mobile" type="button"><strong>App de operaciones</strong><span>Mobile para recuperar SLA y reasignar trabajo.</span></button>
+              <button class="idea" data-preset="invoice-agent" type="button"><strong>Agente de facturas</strong><span>Chat web para resolver excepciones con trazabilidad.</span></button>
             </div>
           </div>
-          <a class="btn primary" target="_blank" rel="noreferrer" href="prototype.html?scenario=retention">Generar demo</a>
-        </article>
-        <article class="prototype">
-          <div>
-            <span class="pill">Operaciones</span>
-            <h3>SLA Recovery Console</h3>
-            <p>Mini app para detectar desvíos de SLA, entender causas y proponer acciones correctivas.</p>
-            <div class="checks">
-              <div class="check">Condición: SLA bajo objetivo</div>
-              <div class="check">Acción: reasignar cola crítica</div>
-              <div class="check">Escala: gerente si el impacto supera umbral</div>
-            </div>
+          <a class="btn primary" id="generateExperience" target="_blank" rel="noreferrer" href="prototype.html?type=web&scenario=retention&palette=rose">Abrir experiencia generada</a>
+        </div>
+        <div class="preview-card">
+          <div class="preview-header">
+            <div class="preview-title"><strong id="previewName">Customer Retention Portal</strong><span id="previewMeta">Web ejecutiva · Retención de clientes · Executive rose</span></div>
+            <span class="badge">Generated by prompt</span>
           </div>
-          <a class="btn primary" target="_blank" rel="noreferrer" href="prototype.html?scenario=sla">Generar demo</a>
-        </article>
-        <article class="prototype">
-          <div>
-            <span class="pill">Back office</span>
-            <h3>Invoice Exception Hub</h3>
-            <p>Mini app para clasificar excepciones de facturas, sugerir resolución y dejar trazabilidad.</p>
-            <div class="checks">
-              <div class="check">Condición: diferencia mayor a 5%</div>
-              <div class="check">Acción: pedir evidencia o aprobar</div>
-              <div class="check">Escala: finanzas si hay riesgo de pago</div>
-            </div>
-          </div>
-          <a class="btn primary" target="_blank" rel="noreferrer" href="prototype.html?scenario=invoice">Generar demo</a>
-        </article>
+          <div class="preview-window" id="mockPreview"></div>
+          <div class="checks" id="previewChecks"></div>
+        </div>
       </div>
     </section>
 
@@ -554,6 +714,34 @@
               <div class="source"><div><strong>CRM pipeline</strong><span>12 oportunidades activas</span></div><span class="badge">Permisos OK</span></div>
               <div class="source"><div><strong>Soporte</strong><span>Tickets críticos y SLA</span></div><span class="badge">Grounded</span></div>
               <div class="source"><div><strong>Contratos</strong><span>Renovación y condiciones</span></div><span class="badge">Citado</span></div>
+            </div>
+          </div>`
+      },
+      models: {
+        rail: [
+          ["Model router", "Elige capacidad según tarea y riesgo."],
+          ["Tools", "CRM, tickets, correo y workflow."],
+          ["Prompt version", "Instrucciones versionadas por proceso."]
+        ],
+        screen: `
+          <div class="screen-top"><div class="screen-title"><strong>Models & tools · Process agent setup</strong><span>Configuración de capacidades para un proceso de negocio</span></div><div class="status">Configured</div></div>
+          <div class="panel-grid">
+            <div class="panel">
+              <h3>Agent instructions</h3>
+              <div class="answer">Objetivo: priorizar casos que impactan clientes estratégicos. El agente puede sugerir acciones, preparar borradores y actualizar sistemas internos. No puede enviar comunicaciones externas ni aplicar beneficios sin aprobación.</div>
+              <div class="steps">
+                <div class="step"><b>Language</b><span>Respuesta ejecutiva en español</span></div>
+                <div class="step"><b>Reasoning</b><span>Usar señales comerciales + soporte</span></div>
+                <div class="step"><b>Boundary</b><span>No inventar datos sin fuente</span></div>
+                <div class="step"><b>Action</b><span>Preparar, no enviar</span></div>
+                <div class="step"><b>Escalation</b><span>Human approval required</span></div>
+              </div>
+            </div>
+            <div class="source-list">
+              <div class="source"><div><strong>CRM action</strong><span>Update opportunity note</span></div><span class="badge">Tool</span></div>
+              <div class="source"><div><strong>Support action</strong><span>Create recovery task</span></div><span class="badge">Tool</span></div>
+              <div class="source"><div><strong>Email draft</strong><span>Prepare executive follow-up</span></div><span class="badge">Tool</span></div>
+              <div class="source"><div><strong>Model policy</strong><span>High accuracy route</span></div><span class="badge">Router</span></div>
             </div>
           </div>`
       },
@@ -609,6 +797,26 @@
               <div class="source"><div><strong>Approval policy</strong><span>Acciones comerciales sensibles</span></div><span class="badge">On</span></div>
             </div>
           </div>`
+      },
+      monitoring: {
+        rail: [
+          ["Runs", "Ejecuciones por proceso y resultado."],
+          ["Cost", "Uso estimado por tipo de tarea."],
+          ["Feedback", "Señales del usuario para mejorar."]
+        ],
+        screen: `
+          <div class="screen-top"><div class="screen-title"><strong>Monitoring · Production readiness</strong><span>Operación diaria de agentes empresariales</span></div><div class="status">Healthy</div></div>
+          <div class="metrics">
+            <div class="metric"><strong>148</strong><span>runs esta semana</span></div>
+            <div class="metric"><strong>91%</strong><span>grounded answers</span></div>
+            <div class="metric"><strong>23</strong><span>acciones preparadas</span></div>
+            <div class="metric"><strong>7</strong><span>aprobaciones requeridas</span></div>
+          </div>
+          <div class="trace">
+            <div class="trace-row"><strong>Account recovery agent</strong><small>Última ejecución: hace 8 minutos</small><span class="badge">OK</span></div>
+            <div class="trace-row"><strong>SLA operations agent</strong><small>2 casos escalados por impacto alto</small><span class="badge">Review</span></div>
+            <div class="trace-row"><strong>Invoice exception agent</strong><small>Precisión estable luego de evaluación</small><span class="badge">OK</span></div>
+          </div>`
       }
     };
 
@@ -635,6 +843,103 @@
 
     tabs.forEach(tab => tab.addEventListener("click", () => render(tab.dataset.tab)));
     render("knowledge");
+
+    const EXPERIENCE = {
+      retention: {
+        label: "Retención de clientes",
+        names: { web: "Customer Retention Portal", mobile: "VIP Account Mobile", agent: "Retention Advisor Agent" },
+        desc: "priorizar cuentas con riesgo, entender señales y preparar acciones de retención",
+        checks: ["Riesgo mayor a 72 activa recomendación", "Beneficios comerciales requieren aprobación", "El agente cita CRM, soporte y contratos"]
+      },
+      sla: {
+        label: "Recuperación de SLA operativo",
+        names: { web: "SLA Recovery Console", mobile: "Operations Pulse App", agent: "SLA Recovery Agent" },
+        desc: "detectar desvíos operativos, explicar causas y coordinar recuperación",
+        checks: ["SLA bajo objetivo genera alerta", "Impacto alto escala a gerente", "Se registra decisión y responsable"]
+      },
+      invoice: {
+        label: "Excepciones de facturación",
+        names: { web: "Invoice Exception Hub", mobile: "Approvals Mobile Desk", agent: "Invoice Resolution Agent" },
+        desc: "clasificar diferencias, sugerir resolución y dejar evidencia para auditoría",
+        checks: ["Diferencia mayor a 5% bloquea pago", "Sin remito pide evidencia", "Aprobación sensible queda auditada"]
+      },
+      onboarding: {
+        label: "Onboarding de empleados",
+        names: { web: "Onboarding Command Center", mobile: "New Hire Companion", agent: "Onboarding Concierge Agent" },
+        desc: "coordinar accesos, tareas y comunicaciones para nuevos ingresos",
+        checks: ["Rol define checklist y accesos", "Tareas vencidas escalan a manager", "Mensajes se preparan con tono corporativo"]
+      }
+    };
+    const TYPE_LABEL = { web: "Web ejecutiva", mobile: "Aplicación mobile", agent: "Agente conversacional" };
+    const PALETTE_LABEL = { rose: "Executive rose", blue: "Corporate blue", green: "Operations green", amber: "Decision amber" };
+    const outputType = document.getElementById("outputType");
+    const businessTheme = document.getElementById("businessTheme");
+    const visualStyle = document.getElementById("visualStyle");
+    const previewName = document.getElementById("previewName");
+    const previewMeta = document.getElementById("previewMeta");
+    const mockPreview = document.getElementById("mockPreview");
+    const previewChecks = document.getElementById("previewChecks");
+    const generateExperience = document.getElementById("generateExperience");
+    const ideaButtons = Array.from(document.querySelectorAll(".idea"));
+
+    function renderMock(type, scenario) {
+      const data = EXPERIENCE[scenario];
+      if (type === "mobile") {
+        return `<div class="mobile-sketch">
+          <div class="badge">${data.names.mobile}</div>
+          <div class="mobile-line">Prioridad alta · 3 casos</div>
+          <div class="mobile-line">Siguiente acción sugerida</div>
+          <div class="mobile-line">Aprobación pendiente</div>
+          <div class="mobile-line">Resumen para responsable</div>
+        </div>`;
+      }
+      if (type === "agent") {
+        return `<div class="chat-sketch">
+          <div class="bubble">Necesito saber qué casos requieren atención hoy.</div>
+          <div class="bubble agent">Encontré 3 prioridades. La principal requiere intervención porque combina impacto alto, SLA vencido y cliente estratégico.</div>
+          <div class="bubble">¿Qué acción recomiendas?</div>
+          <div class="bubble agent">Preparar respuesta, actualizar sistema y pedir aprobación antes de ejecutar. Puedo dejar el borrador listo.</div>
+        </div>`;
+      }
+      return `<div class="mock-toolbar"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+        <div class="mock-hero"><h4>${data.names.web}</h4><p>Panel ejecutivo para ${data.desc}.</p></div>
+        <div class="mock-columns">
+          <div class="mock-box"><b>Señales</b><small>3 alertas priorizadas</small></div>
+          <div class="mock-box"><b>Acción</b><small>Plan recomendado</small></div>
+          <div class="mock-box"><b>Control</b><small>Aprobación requerida</small></div>
+        </div>`;
+    }
+
+    function updateBuilder() {
+      const type = outputType.value;
+      const scenario = businessTheme.value;
+      const palette = visualStyle.value;
+      const data = EXPERIENCE[scenario];
+      previewName.textContent = data.names[type];
+      previewMeta.textContent = `${TYPE_LABEL[type]} · ${data.label} · ${PALETTE_LABEL[palette]}`;
+      mockPreview.innerHTML = renderMock(type, scenario);
+      previewChecks.innerHTML = data.checks.map(check => `<div class="check">${check}</div>`).join("");
+      generateExperience.href = `prototype.html?type=${encodeURIComponent(type)}&scenario=${encodeURIComponent(scenario)}&palette=${encodeURIComponent(palette)}`;
+      ideaButtons.forEach(btn => btn.classList.remove("active"));
+    }
+
+    const presets = {
+      "retention-web": ["web", "retention", "rose"],
+      "sla-mobile": ["mobile", "sla", "green"],
+      "invoice-agent": ["agent", "invoice", "amber"]
+    };
+    ideaButtons.forEach(btn => {
+      btn.addEventListener("click", () => {
+        const [type, scenario, palette] = presets[btn.dataset.preset];
+        outputType.value = type;
+        businessTheme.value = scenario;
+        visualStyle.value = palette;
+        ideaButtons.forEach(item => item.classList.toggle("active", item === btn));
+        updateBuilder();
+      });
+    });
+    [outputType, businessTheme, visualStyle].forEach(control => control.addEventListener("change", updateBuilder));
+    updateBuilder();
   </script>
 </body>
 </html>
