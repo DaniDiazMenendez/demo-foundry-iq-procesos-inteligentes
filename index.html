@@ -1,0 +1,524 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Demo | FoundryIQ y procesos inteligentes</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23b11f4b'/%3E%3Ctext x='16' y='22' text-anchor='middle' font-family='Arial' font-size='18' font-weight='700' fill='white'%3EF%3C/text%3E%3C/svg%3E">
+  <script>
+    (() => {
+      const param = new URLSearchParams(window.location.search).get("scoutTheme");
+      const theme =
+        param || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      document.documentElement.setAttribute("data-theme", theme);
+    })();
+  </script>
+  <style>
+    :root {
+      color-scheme: light;
+      --cp-bg: #f7f4ef;
+      --cp-bg-elevated: #fcfbf8;
+      --cp-surface: #ffffff;
+      --cp-surface-soft: #f5f5f5;
+      --cp-border: #dedede;
+      --cp-border-strong: #919191;
+      --cp-text: #242424;
+      --cp-text-muted: #5c5c5c;
+      --cp-text-soft: #6f6f6f;
+      --cp-accent: #b11f4b;
+      --cp-accent-hover: #9a1a41;
+      --cp-accent-soft: rgba(177, 31, 75, 0.08);
+      --cp-accent-fg: #ffffff;
+      --cp-success: #16a34a;
+      --cp-danger: #dc2626;
+      --cp-warning: #f59e0b;
+      --cp-link: #0078d4;
+      --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.12);
+      --cp-overlay: rgba(255, 255, 255, 0.8);
+      --cp-panel: rgba(255, 255, 255, 0.86);
+      --cp-panel-strong: rgba(255, 255, 255, 0.96);
+      --cp-sheen: rgba(255, 255, 255, 0.55);
+      --cp-highlight: rgba(177, 31, 75, 0.12);
+    }
+    html[data-theme="dark"] {
+      color-scheme: dark;
+      --cp-bg: #3d3b3a;
+      --cp-bg-elevated: #343231;
+      --cp-surface: #292929;
+      --cp-surface-soft: #2e2e2e;
+      --cp-border: #474747;
+      --cp-border-strong: #5f5f5f;
+      --cp-text: #dedede;
+      --cp-text-muted: #919191;
+      --cp-text-soft: #b0b0b0;
+      --cp-accent: #fd8ea1;
+      --cp-accent-hover: #fb7b91;
+      --cp-accent-soft: rgba(253, 142, 161, 0.14);
+      --cp-accent-fg: #1a1a1a;
+      --cp-success: #4ade80;
+      --cp-danger: #f87171;
+      --cp-warning: #fbbf24;
+      --cp-link: #4da6ff;
+      --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.32);
+      --cp-overlay: rgba(41, 41, 41, 0.88);
+      --cp-panel: rgba(41, 41, 41, 0.72);
+      --cp-panel-strong: rgba(41, 41, 41, 0.96);
+      --cp-sheen: rgba(255, 255, 255, 0.04);
+      --cp-highlight: rgba(253, 142, 161, 0.12);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at top left, var(--cp-accent-soft), transparent 28rem),
+        radial-gradient(circle at 88% 12%, var(--cp-highlight), transparent 26rem),
+        var(--cp-bg);
+      color: var(--cp-text);
+      font-family: "Segoe UI", Aptos, Calibri, -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    button, textarea, select { font: inherit; }
+    button { cursor: pointer; }
+    .shell { width: min(1180px, calc(100% - 32px)); margin: 0 auto; }
+    .topbar {
+      position: sticky; top: 0; z-index: 20;
+      backdrop-filter: blur(18px);
+      background: var(--cp-overlay);
+      border-bottom: 1px solid var(--cp-border);
+    }
+    .nav {
+      height: 68px; display: flex; align-items: center; justify-content: space-between; gap: 24px;
+    }
+    .brand { display: flex; align-items: center; gap: 12px; font-weight: 800; letter-spacing: -0.03em; }
+    .mark {
+      width: 40px; height: 40px; border-radius: 14px;
+      display: grid; place-items: center;
+      background: var(--cp-accent);
+      color: var(--cp-accent-fg);
+      box-shadow: 0 0 2px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.14);
+    }
+    .navlinks { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
+    .navlinks a {
+      color: var(--cp-text-muted); text-decoration: none; font-size: 0.92rem;
+      padding: 8px 12px; border-radius: 999px;
+    }
+    .navlinks a:hover { color: var(--cp-text); background: var(--cp-accent-soft); }
+    .hero {
+      display: grid; grid-template-columns: 1.02fr 0.98fr; gap: 36px;
+      align-items: center; padding: 72px 0 48px;
+    }
+    .eyebrow {
+      color: var(--cp-accent); font-weight: 800; letter-spacing: 0.14em;
+      font-size: 0.75rem; text-transform: uppercase; margin-bottom: 16px;
+    }
+    h1 {
+      font-size: clamp(2.6rem, 6vw, 5.2rem);
+      line-height: 0.94; margin: 0 0 22px; letter-spacing: -0.075em;
+    }
+    .lead {
+      font-size: clamp(1.05rem, 2vw, 1.28rem); line-height: 1.55;
+      color: var(--cp-text-muted); max-width: 62ch; margin: 0 0 26px;
+    }
+    .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+    .btn {
+      border: 1px solid var(--cp-border); border-radius: 0.625rem;
+      padding: 12px 16px; background: var(--cp-surface);
+      color: var(--cp-text); text-decoration: none; display: inline-flex; gap: 8px; align-items: center;
+      box-shadow: 0 0 2px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.14);
+    }
+    .btn.primary { background: var(--cp-accent); color: var(--cp-accent-fg); border-color: var(--cp-accent); }
+    .stage {
+      background: var(--cp-panel);
+      border: 1px solid var(--cp-border);
+      border-radius: 24px;
+      padding: 26px;
+      box-shadow: var(--cp-shadow);
+      position: relative; overflow: hidden;
+    }
+    .stage::before {
+      content: ""; position: absolute; inset: 0;
+      background:
+        linear-gradient(90deg, transparent, var(--cp-sheen), transparent),
+        radial-gradient(circle at 20% 10%, var(--cp-highlight), transparent 18rem);
+      pointer-events: none;
+    }
+    .puzzle-grid {
+      position: relative; display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 14px; min-height: 348px;
+    }
+    .puzzle {
+      position: relative; min-height: 152px; padding: 24px 16px 18px;
+      border: 2px solid var(--piece);
+      border-radius: 16px;
+      background: var(--cp-panel-strong);
+      box-shadow: 0 0 2px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.14);
+      display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;
+    }
+    .puzzle::before, .puzzle::after {
+      content: ""; position: absolute; width: 28px; height: 28px; border-radius: 50%;
+      background: var(--cp-panel-strong); border: 2px solid var(--piece);
+    }
+    .puzzle::before { top: -17px; left: calc(50% - 14px); }
+    .puzzle::after { right: -17px; top: calc(50% - 14px); }
+    .puzzle .notch {
+      position: absolute; width: 30px; height: 30px; border-radius: 50%;
+      background: var(--cp-bg); left: -17px; top: calc(50% - 15px);
+      border: 1px solid var(--cp-bg);
+    }
+    .puzzle h3 { margin: 0 0 8px; font-size: 1.02rem; letter-spacing: -0.03em; }
+    .puzzle p { margin: 0; color: var(--cp-text-muted); font-size: 0.9rem; line-height: 1.35; }
+    .p1 { --piece: var(--cp-accent); }
+    .p2 { --piece: var(--cp-link); }
+    .p3 { --piece: var(--cp-success); }
+    .p4 { --piece: var(--cp-warning); }
+    .p5 { --piece: var(--cp-danger); }
+    .p6 { --piece: var(--cp-border-strong); }
+
+    section { padding: 54px 0; }
+    .section-head { display: flex; justify-content: space-between; gap: 24px; align-items: end; margin-bottom: 24px; }
+    .section-head h2 { margin: 0; font-size: clamp(1.8rem, 3vw, 2.7rem); letter-spacing: -0.055em; }
+    .section-head p { margin: 0; max-width: 54ch; color: var(--cp-text-muted); line-height: 1.5; }
+    .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .card {
+      background: var(--cp-surface);
+      border: 1px solid var(--cp-border);
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 0 2px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.14);
+    }
+    .card .num { color: var(--cp-accent); font-size: 0.82rem; font-weight: 800; margin-bottom: 18px; }
+    .card h3 { margin: 0 0 10px; font-size: 1.15rem; letter-spacing: -0.025em; }
+    .card p { margin: 0; color: var(--cp-text-muted); line-height: 1.5; }
+    .demo-panel {
+      display: grid; grid-template-columns: 0.95fr 1.05fr; gap: 18px;
+      background: var(--cp-surface);
+      border: 1px solid var(--cp-border);
+      border-radius: 24px;
+      padding: 18px;
+      box-shadow: var(--cp-shadow);
+    }
+    .scenario-list { display: grid; gap: 10px; }
+    .scenario {
+      text-align: left; border: 1px solid var(--cp-border); background: var(--cp-surface-soft);
+      border-radius: 16px; padding: 14px; color: var(--cp-text);
+    }
+    .scenario.active { border-color: var(--cp-accent); background: var(--cp-accent-soft); }
+    .scenario strong { display: block; margin-bottom: 4px; }
+    .scenario span { color: var(--cp-text-muted); font-size: 0.9rem; }
+    .screen {
+      min-height: 470px; background: var(--cp-bg-elevated); border: 1px solid var(--cp-border);
+      border-radius: 18px; padding: 18px; display: grid; gap: 14px;
+    }
+    .screen-top { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+    .status { color: var(--cp-success); font-weight: 800; font-size: 0.82rem; }
+    .agent-answer {
+      background: var(--cp-panel-strong); border: 1px solid var(--cp-border);
+      border-radius: 16px; padding: 18px; line-height: 1.52;
+    }
+    .steps { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+    .step {
+      border: 1px solid var(--cp-border); background: var(--cp-surface); border-radius: 14px; padding: 10px;
+      min-height: 96px;
+    }
+    .step b { display: block; color: var(--cp-accent); font-size: 0.9rem; margin-bottom: 6px; }
+    .step span { font-size: 0.82rem; color: var(--cp-text-muted); line-height: 1.3; display: block; }
+    .builder {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 18px;
+      background: var(--cp-surface);
+      border: 1px solid var(--cp-border);
+      border-radius: 24px; padding: 18px; box-shadow: var(--cp-shadow);
+    }
+    textarea {
+      width: 100%; min-height: 180px; resize: vertical;
+      border: 1px solid var(--cp-border); border-radius: 16px; padding: 14px;
+      background: var(--cp-bg-elevated); color: var(--cp-text); line-height: 1.45;
+    }
+    .prompt-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 12px; }
+    .small-btn {
+      border: 1px solid var(--cp-border); background: var(--cp-surface-soft); color: var(--cp-text);
+      border-radius: 999px; padding: 8px 11px; font-size: 0.88rem;
+    }
+    .output-grid { display: grid; gap: 10px; }
+    .output {
+      border: 1px solid var(--cp-border); border-radius: 16px; padding: 14px; background: var(--cp-bg-elevated);
+    }
+    .output strong { color: var(--cp-accent); display: block; margin-bottom: 5px; }
+    .outcome {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px;
+    }
+    .metric {
+      background: var(--cp-surface); border: 1px solid var(--cp-border); border-radius: 16px; padding: 18px;
+      text-align: center;
+    }
+    .metric strong { display: block; font-size: 2rem; letter-spacing: -0.06em; color: var(--cp-accent); }
+    .metric span { color: var(--cp-text-muted); font-size: 0.9rem; }
+    .note {
+      margin-top: 18px; padding: 16px 18px; border-radius: 16px;
+      background: var(--cp-accent-soft); color: var(--cp-text-muted); border: 1px solid var(--cp-border);
+      line-height: 1.5;
+    }
+    @media (max-width: 900px) {
+      .hero, .demo-panel, .builder { grid-template-columns: 1fr; }
+      .cards, .outcome { grid-template-columns: 1fr 1fr; }
+      .steps { grid-template-columns: 1fr; }
+      .puzzle-grid { grid-template-columns: 1fr 1fr; }
+      .section-head { display: block; }
+    }
+    @media (max-width: 620px) {
+      .cards, .outcome, .puzzle-grid { grid-template-columns: 1fr; }
+      .nav { height: auto; padding: 14px 0; align-items: flex-start; }
+      .navlinks { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="shell nav">
+      <div class="brand"><div class="mark">IQ</div><span>FoundryIQ Process Studio</span></div>
+      <nav class="navlinks" aria-label="Navegación">
+        <a href="#ecosistema">Ecosistema</a>
+        <a href="#demo">Demo agente</a>
+        <a href="#vibe">Vibe coding</a>
+        <a href="#impacto">Impacto</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero shell">
+      <div>
+        <div class="eyebrow">Microsoft IQ Summit · Demo simulada</div>
+        <h1>De copilotos personales a procesos inteligentes.</h1>
+        <p class="lead">
+          Una experiencia para mostrar, sin tecnicismos, cómo FoundryIQ, agentes, servicios de IA, gobierno y GitHub Copilot encastran para acompañar procesos reales del negocio.
+        </p>
+        <div class="hero-actions">
+          <a class="btn primary" href="#demo">Ver agente en acción</a>
+          <a class="btn" href="#vibe">Probar vibe coding</a>
+        </div>
+      </div>
+      <aside class="stage" id="ecosistema" aria-label="Ecosistema de piezas">
+        <div class="puzzle-grid">
+          <article class="puzzle p1"><span class="notch"></span><h3>FoundryIQ</h3><p>Conocimiento corporativo con contexto y fuentes confiables.</p></article>
+          <article class="puzzle p2"><span class="notch"></span><h3>Agentes</h3><p>Acciones guiadas dentro del proceso, no un chat aislado.</p></article>
+          <article class="puzzle p3"><span class="notch"></span><h3>AI Services</h3><p>Capacidades listas para analizar, entender y generar contenido.</p></article>
+          <article class="puzzle p4"><span class="notch"></span><h3>Governance</h3><p>Reglas, seguridad, trazabilidad y aprobación humana.</p></article>
+          <article class="puzzle p5"><span class="notch"></span><h3>GitHub Copilot</h3><p>Software, integraciones y automatización construidas más rápido.</p></article>
+          <article class="puzzle p6"><span class="notch"></span><h3>Proceso</h3><p>El lugar donde la IA deja de asistir y empieza a operar.</p></article>
+        </div>
+      </aside>
+    </section>
+
+    <section class="shell">
+      <div class="section-head">
+        <h2>La historia para clientes</h2>
+        <p>El mensaje no es “mirá otra herramienta de IA”. El mensaje es: ya tenemos datos y conocimiento; ahora podemos poner inteligencia en el flujo de trabajo.</p>
+      </div>
+      <div class="cards">
+        <article class="card"><div class="num">01</div><h3>Productividad personal</h3><p>Copilots ayudan a cada persona a resumir, redactar y analizar mejor.</p></article>
+        <article class="card"><div class="num">02</div><h3>Procesos inteligentes</h3><p>Agentes consultan contexto, proponen acciones y acompañan tareas de negocio.</p></article>
+        <article class="card"><div class="num">03</div><h3>Software a velocidad de negocio</h3><p>GitHub Copilot acelera las apps, integraciones y automatizaciones que conectan todo.</p></article>
+      </div>
+    </section>
+
+    <section id="demo" class="shell">
+      <div class="section-head">
+        <h2>Demo: agente de proceso</h2>
+        <p>Elegí un escenario y mirá cómo el agente usa contexto corporativo simulado para acompañar una decisión de negocio.</p>
+      </div>
+      <div class="demo-panel">
+        <div class="scenario-list" id="scenarioList"></div>
+        <div class="screen" aria-live="polite">
+          <div class="screen-top">
+            <div>
+              <strong id="screenTitle">Atención al cliente</strong>
+              <div id="screenSub" class="status">FoundryIQ conectado · Gobierno activo</div>
+            </div>
+            <button class="btn primary" id="runAgent" type="button">Ejecutar agente</button>
+          </div>
+          <div class="agent-answer" id="agentAnswer"></div>
+          <div class="steps" id="agentSteps"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="vibe" class="shell">
+      <div class="section-head">
+        <h2>Demo: vibe coding para negocio</h2>
+        <p>Simula cómo una persona de negocio describe una necesidad y obtiene un primer prototipo de proceso, sin entrar en código.</p>
+      </div>
+      <div class="builder">
+        <div>
+          <textarea id="promptBox">Quiero un flujo para priorizar reclamos de clientes VIP, sugerir respuesta, actualizar el CRM y avisar al responsable si hay riesgo de churn.</textarea>
+          <div class="prompt-actions">
+            <button class="small-btn" data-template="ventas">Ejemplo ventas</button>
+            <button class="small-btn" data-template="ops">Ejemplo operaciones</button>
+            <button class="small-btn" data-template="rrhh">Ejemplo RRHH</button>
+            <button class="btn primary" id="buildPrototype" type="button">Generar prototipo</button>
+          </div>
+          <div class="note">
+            Esta sección es simulada: muestra la experiencia de conversación y diseño, no una integración real. Ideal para explicar el concepto sin que la demo se vuelva técnica.
+          </div>
+        </div>
+        <div class="output-grid" id="prototypeOutput"></div>
+      </div>
+    </section>
+
+    <section id="impacto" class="shell">
+      <div class="section-head">
+        <h2>Qué se llevan del evento</h2>
+        <p>Una forma simple de explicar el valor: la IA empresarial no vive en una app aislada; se encastra con conocimiento, procesos y software.</p>
+      </div>
+      <div class="outcome">
+        <div class="metric"><strong>1</strong><span>contexto común para decidir</span></div>
+        <div class="metric"><strong>5</strong><span>piezas que encastran</span></div>
+        <div class="metric"><strong>0</strong><span>tecnicismo innecesario</span></div>
+        <div class="metric"><strong>∞</strong><span>casos de negocio posibles</span></div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const scenarios = [
+      {
+        id: "clientes",
+        title: "Atención al cliente",
+        subtitle: "Riesgo de churn en cuenta estratégica",
+        answer: "Detecté un reclamo crítico de una cuenta prioritaria. FoundryIQ recuperó contrato, historial de tickets y últimos compromisos comerciales. Recomiendo respuesta personalizada, bonificación preventiva y seguimiento ejecutivo en 24 horas.",
+        steps: [
+          ["Detecta", "Reclamo crítico entrante"],
+          ["Entiende", "Cruza contrato, tickets y prioridad"],
+          ["Propone", "Respuesta y plan de retención"],
+          ["Actúa", "Prepara actualización de CRM"],
+          ["Escala", "Avisa al responsable comercial"]
+        ]
+      },
+      {
+        id: "ventas",
+        title: "Ventas B2B",
+        subtitle: "Oportunidad estancada antes del cierre",
+        answer: "La oportunidad lleva 21 días sin avance y tiene señales positivas en reuniones recientes. Sugiero una propuesta ejecutiva con tres beneficios de negocio, próximos pasos y un correo de seguimiento listo para enviar.",
+        steps: [
+          ["Detecta", "Pipeline sin movimiento"],
+          ["Entiende", "Lee notas, reuniones y forecast"],
+          ["Propone", "Siguiente mejor acción"],
+          ["Actúa", "Genera borrador comercial"],
+          ["Escala", "Pide aprobación del account owner"]
+        ]
+      },
+      {
+        id: "operaciones",
+        title: "Operaciones",
+        subtitle: "Desvío en SLA de proceso interno",
+        answer: "Hay un incremento de demoras en aprobaciones de compras. El agente identifica cuello de botella, resume causas frecuentes y propone reasignar aprobaciones de bajo riesgo para recuperar SLA.",
+        steps: [
+          ["Detecta", "SLA por debajo del objetivo"],
+          ["Entiende", "Agrupa causas y responsables"],
+          ["Propone", "Rebalanceo de aprobaciones"],
+          ["Actúa", "Crea tarea y resumen operativo"],
+          ["Escala", "Solicita validación del gerente"]
+        ]
+      },
+      {
+        id: "rrhh",
+        title: "RRHH",
+        subtitle: "Onboarding de nuevo equipo",
+        answer: "Para los ingresos de la semana, preparé checklist personalizado, mensajes de bienvenida, accesos pendientes y alertas para responsables. El flujo queda trazado y visible para RRHH y managers.",
+        steps: [
+          ["Detecta", "Nuevos ingresos confirmados"],
+          ["Entiende", "Rol, equipo y ubicación"],
+          ["Propone", "Plan de onboarding"],
+          ["Actúa", "Genera checklist y comunicaciones"],
+          ["Escala", "Marca accesos pendientes"]
+        ]
+      }
+    ];
+
+    const templates = {
+      ventas: "Quiero un flujo que revise oportunidades sin avance, lea las notas de reunión, sugiera próximo paso y genere un correo de seguimiento para el cliente.",
+      ops: "Quiero un flujo que detecte desvíos de SLA en compras, agrupe causas, proponga acciones y avise al responsable si el impacto supera cierto umbral.",
+      rrhh: "Quiero un flujo para onboarding: armar checklist por rol, generar mensajes de bienvenida, detectar accesos pendientes y avisar al manager."
+    };
+
+    let active = scenarios[0];
+    const scenarioList = document.getElementById("scenarioList");
+    const screenTitle = document.getElementById("screenTitle");
+    const screenSub = document.getElementById("screenSub");
+    const agentAnswer = document.getElementById("agentAnswer");
+    const agentSteps = document.getElementById("agentSteps");
+    const promptBox = document.getElementById("promptBox");
+    const prototypeOutput = document.getElementById("prototypeOutput");
+
+    function renderScenarios() {
+      scenarioList.innerHTML = "";
+      scenarios.forEach((scenario) => {
+        const btn = document.createElement("button");
+        btn.className = "scenario" + (scenario.id === active.id ? " active" : "");
+        btn.type = "button";
+        btn.innerHTML = `<strong>${scenario.title}</strong><span>${scenario.subtitle}</span>`;
+        btn.addEventListener("click", () => {
+          active = scenario;
+          renderScenarios();
+          renderAgent(false);
+        });
+        scenarioList.appendChild(btn);
+      });
+    }
+
+    function renderAgent(animated) {
+      screenTitle.textContent = active.title;
+      screenSub.textContent = "FoundryIQ conectado · Gobierno activo";
+      agentAnswer.textContent = animated ? "Analizando señales del negocio..." : active.answer;
+      agentSteps.innerHTML = "";
+      active.steps.forEach((step, index) => {
+        const node = document.createElement("div");
+        node.className = "step";
+        node.innerHTML = `<b>${step[0]}</b><span>${step[1]}</span>`;
+        agentSteps.appendChild(node);
+        if (animated) {
+          node.style.opacity = "0.25";
+          setTimeout(() => { node.style.opacity = "1"; }, 220 * index);
+        }
+      });
+      if (animated) {
+        setTimeout(() => { agentAnswer.textContent = active.answer; }, 800);
+      }
+    }
+
+    function buildPrototype() {
+      const text = promptBox.value.trim() || templates.ventas;
+      prototypeOutput.innerHTML = "";
+      [
+        ["Proceso detectado", "La necesidad se interpreta como un flujo con disparador, contexto, acción y aprobación."],
+        ["Agente sugerido", "Agente de proceso conectado a FoundryIQ para consultar políticas, clientes, documentos y señales operativas."],
+        ["Controles", "Incluye trazabilidad, aprobación humana para acciones sensibles y reglas de seguridad por rol."],
+        ["Copilot / Vibe coding", "Se genera un primer prototipo de interfaz, workflow y backlog técnico para que IT lo endurezca."]
+      ].forEach((item) => {
+        const div = document.createElement("div");
+        div.className = "output";
+        div.innerHTML = `<strong>${item[0]}</strong><span>${item[1]}</span>`;
+        prototypeOutput.appendChild(div);
+      });
+      const summary = document.createElement("div");
+      summary.className = "output";
+      summary.innerHTML = `<strong>Pedido original</strong><span>${text}</span>`;
+      prototypeOutput.appendChild(summary);
+    }
+
+    document.getElementById("runAgent").addEventListener("click", () => renderAgent(true));
+    document.getElementById("buildPrototype").addEventListener("click", buildPrototype);
+    document.querySelectorAll("[data-template]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        promptBox.value = templates[btn.dataset.template];
+        buildPrototype();
+      });
+    });
+
+    renderScenarios();
+    renderAgent(false);
+    buildPrototype();
+  </script>
+</body>
+</html>
